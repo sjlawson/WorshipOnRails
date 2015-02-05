@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @scripture.title %>
+</p>
+
+<p>
+  <strong>Content:</strong>
+  <%= @scripture.content %>
+</p>
+
+<p>
+  <strong>Author:</strong>
+  <%= @scripture.author %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @scripture.user %>
+</p>
+
+<%= link_to 'Edit', edit_scripture_path(@scripture) %> |
+<%= link_to 'Back', scriptures_path %>
