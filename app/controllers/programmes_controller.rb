@@ -15,6 +15,7 @@ class ProgrammesController < ApplicationController
   # GET /programmes/new
   def new
     @programme = Programme.new
+    @userSongs = Song.where(:user_id => current_user.id)
   end
 
   # GET /programmes/1/edit
@@ -69,6 +70,6 @@ class ProgrammesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def programme_params
-      params.require(:programme).permit(:title, :notes, :user_id)
+      params.require(:programme).permit(:title, :notes, :user_id, :song_ids => [])
     end
 end

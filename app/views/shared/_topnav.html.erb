@@ -17,6 +17,7 @@
               <li>
                 <%= link_to "Home", home_index_path() %>
               </li>
+              <% if user_signed_in? %>
               <li>
                 <%= link_to "Programmes", programmes_path() %>
               </li>
@@ -29,6 +30,7 @@
               <li>
                 <%= link_to "Media Resources", resources_path() %>
               </li>
+              <% end %>
             </ul>
             <div class='floatright'>
 
