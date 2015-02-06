@@ -1,4 +1,6 @@
 class ProgrammesController < ApplicationController
+
+  before_filter :require_login
   before_action :set_programme, only: [:show, :edit, :update, :destroy]
 
   # GET /programmes
@@ -14,12 +16,20 @@ class ProgrammesController < ApplicationController
 
   # GET /programmes/new
   def new
+    if !user_signed_in?
+      redirect_to home_index_path()
+    end
     @programme = Programme.new
     @userSongs = Song.where(:user_id => current_user.id)
+    @userScriptures = Scripture.where(:user_id => current_user.id)
+    @userResources = Resource.where(:user_id => current_user.id)
   end
 
   # GET /programmes/1/edit
   def edit
+    @userSongs = Song.where(:user_id => current_user.id)
+    @userScriptures = Scripture.where(:user_id => current_user.id)
+    @userResources = Resource.where(:user_id => current_user.id)
   end
 
   # POST /programmes
@@ -63,13 +73,14 @@ class ProgrammesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_programme
-      @programme = Programme.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_programme
+    @programme = Programme.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def programme_params
-      params.require(:programme).permit(:title, :notes, :user_id, :song_ids => [])
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def programme_params
+    params.require(:programme).permit(:title, :notes, :user_id, :song_ids => [], :scripture_ids => [], :resource_ids => [])
+  end
+
 end

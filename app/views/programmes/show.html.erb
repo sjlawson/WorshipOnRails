@@ -1,3 +1,4 @@
+<div class='container'>
 <p id="notice"><%= notice %></p>
 
 <p>
@@ -9,10 +10,44 @@
   <strong>Notes:</strong>
   <%= @programme.notes %>
 </p>
+
 <p>
+  <strong>Songs:</strong>
+  <div class='container-fluid'>
+    <% @programme.songs.each do |song| %>
+    <div class="row">
+      <%= song.title %>
+    </div>
+    <% end %>
+  </div>
+<p>
+
+<p>
+  <strong>Scriptures & Texts:</strong>
+  <div class='container-fluid'>
+    <% @programme.scriptures.each do |scripture| %>
+    <div class="row">
+      <%= scripture.title %>
+    </div>
+    <% end %>
+  </div>
+<p>
+
+<p>
+  <strong>Media Resources:</strong>ToDo: add preview thumbs
+  <div class='container-fluid'>
+    <% @programme.resources.each do |resource| %>
+    <div class="row">
+      <%= resource.title %>
+    </div>
+    <% end %>
+  </div>
+<p>
+
   <strong>User:</strong>
   <%= @programme.user.email %>
 </p>
 
 <%= link_to 'Edit', edit_programme_path(@programme) %> |
 <%= link_to 'Back', programmes_path %>
+</div>

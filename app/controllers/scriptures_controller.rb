@@ -1,4 +1,5 @@
 class ScripturesController < ApplicationController
+  before_filter :require_login
   before_action :set_scripture, only: [:show, :edit, :update, :destroy]
 
   # GET /scriptures

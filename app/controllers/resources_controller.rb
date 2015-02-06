@@ -1,4 +1,5 @@
 class ResourcesController < ApplicationController
+  before_filter :require_login
   before_action :set_resource, only: [:show, :edit, :update, :destroy]
 
   # GET /resources

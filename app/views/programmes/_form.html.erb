@@ -21,13 +21,34 @@
   </div>
 
   <div class="field">
-    <%= f.label :songs %>
+    <%= f.label :songs %><br />
+    <i> - hold Shift or Ctrl to select multiple </i><br />
     <%= f.select :song_ids, options_for_select(
         @userSongs.map { |song|
         [song.title, song.id]
-        } ), {}, {:multiple => true, :class => "multi-select", :style => "width:450px;" } %>
+        }, @programme.song_ids ), {}, {:multiple => true, :class => "multi-select", :style => "width:450px;" } %>
 
   </div>
+
+  <div class="field">
+    <%= f.label :scriptures %><br />
+    <i> - hold Shift or Ctrl to select multiple </i><br />
+    <%= f.select :scripture_ids, options_for_select(
+        @userScriptures.map { |scripture|
+        [scripture.title, scripture.id]
+        }, @programme.scripture_ids ), {}, {:multiple => true, :class => "multi-select", :style => "width:450px;" } %>
+  </div>
+
+  <div class="field">
+    <%= f.label :resources %><br />
+    <i> - hold Shift or Ctrl to select multiple </i><br />
+    <%= f.select :resource_ids, options_for_select(
+        @userResources.map { |resource|
+        [resource.title, resource.id]
+        }, @programme.resource_ids ), {}, {:multiple => true, :class => "multi-select", :style => "width:450px;" } %>
+
+  </div>
+
 <%= f.hidden_field :user_id, :value => current_user.id %>
   <div class="actions">
     <%= f.submit %>
