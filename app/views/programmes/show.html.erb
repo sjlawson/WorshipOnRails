@@ -9,6 +9,10 @@
   <strong>Notes:</strong>
   <%= @programme.notes %>
 </p>
+<p>
+  <strong>User:</strong>
+  <%= @programme.user.email %>
+</p>
 
 <%= link_to 'Edit', edit_programme_path(@programme) %> |
 <%= link_to 'Back', programmes_path %>

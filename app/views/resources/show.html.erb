@@ -1,3 +1,4 @@
+<div class='container'>
 <p id="notice"><%= notice %></p>
 
 <p>
@@ -22,8 +23,9 @@
 
 <p>
   <strong>User:</strong>
-  <%= @resource.user %>
+  <%= @resource.user.email %>
 </p>
 
 <%= link_to 'Edit', edit_resource_path(@resource) %> |
 <%= link_to 'Back', resources_path %>
+</div>

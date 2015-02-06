@@ -1,7 +1,8 @@
+<div class='container'>
 <p id="notice"><%= notice %></p>
 
 <h1>Listing Songs</h1>
-
+<div class='panel'>
 <table>
   <thead>
     <tr>
@@ -18,10 +19,10 @@
     <% @songs.each do |song| %>
       <tr>
         <td><%= song.title %></td>
-        <td><%= song.content %></td>
+        <td><%= song.content[0..64] %></td>
         <td><%= song.license %></td>
         <td><%= song.author %></td>
-        <td><%= song.user %></td>
+        <td><%= song.user.email %></td>
         <td><%= link_to 'Show', song %></td>
         <td><%= link_to 'Edit', edit_song_path(song) %></td>
         <td><%= link_to 'Destroy', song, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -29,7 +30,8 @@
     <% end %>
   </tbody>
 </table>
-
+</div>
 <br>
 
 <%= link_to 'New Song', new_song_path %>
+</div>

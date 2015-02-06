@@ -1,7 +1,8 @@
+<div class='container'>
 <p id="notice"><%= notice %></p>
 
 <h1>Listing Scriptures</h1>
-
+<div class='panel'>
 <table>
   <thead>
     <tr>
@@ -17,9 +18,9 @@
     <% @scriptures.each do |scripture| %>
       <tr>
         <td><%= scripture.title %></td>
-        <td><%= scripture.content %></td>
+        <td><%= scripture.content[0..64] %></td>
         <td><%= scripture.author %></td>
-        <td><%= scripture.user %></td>
+        <td><%= scripture.user.email %></td>
         <td><%= link_to 'Show', scripture %></td>
         <td><%= link_to 'Edit', edit_scripture_path(scripture) %></td>
         <td><%= link_to 'Destroy', scripture, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -27,7 +28,8 @@
     <% end %>
   </tbody>
 </table>
-
+</div>
 <br>
 
 <%= link_to 'New Scripture', new_scripture_path %>
+</div>

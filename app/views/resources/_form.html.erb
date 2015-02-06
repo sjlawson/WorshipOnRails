@@ -27,10 +27,8 @@
     <%= f.label :attribution %><br>
     <%= f.text_field :attribution %>
   </div>
-  <div class="field">
-    <%= f.label :user_id %><br>
-    <%= f.text_field :user_id %>
-  </div>
+  <%= f.hidden_field :user_id, :value => current_user.id %>
+
   <div class="actions">
     <%= f.submit %>
   </div>

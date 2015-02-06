@@ -11,7 +11,76 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150205204628) do
+ActiveRecord::Schema.define(version: 20150205214108) do
+
+  create_table "programmes", force: :cascade do |t|
+    t.string   "title"
+    t.text     "notes"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "programmes", ["user_id"], name: "index_programmes_on_user_id"
+
+  create_table "programmes_resources", force: :cascade do |t|
+    t.integer "resource_id"
+    t.integer "programme_id"
+  end
+
+  add_index "programmes_resources", ["programme_id"], name: "index_programmes_resources_on_programme_id"
+  add_index "programmes_resources", ["resource_id"], name: "index_programmes_resources_on_resource_id"
+
+  create_table "programmes_scriptures", force: :cascade do |t|
+    t.integer "scripture_id"
+    t.integer "programme_id"
+  end
+
+  add_index "programmes_scriptures", ["programme_id"], name: "index_programmes_scriptures_on_programme_id"
+  add_index "programmes_scriptures", ["scripture_id"], name: "index_programmes_scriptures_on_scripture_id"
+
+  create_table "programmes_songs", force: :cascade do |t|
+    t.integer "programme_id"
+    t.integer "song_id"
+  end
+
+  add_index "programmes_songs", ["programme_id"], name: "index_programmes_songs_on_programme_id"
+  add_index "programmes_songs", ["song_id"], name: "index_programmes_songs_on_song_id"
+
+  create_table "resources", force: :cascade do |t|
+    t.string   "title"
+    t.text     "location"
+    t.string   "resourceType"
+    t.string   "attribution"
+    t.integer  "user_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "resources", ["user_id"], name: "index_resources_on_user_id"
+
+  create_table "scriptures", force: :cascade do |t|
+    t.string   "title"
+    t.text     "content"
+    t.string   "author"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "scriptures", ["user_id"], name: "index_scriptures_on_user_id"
+
+  create_table "songs", force: :cascade do |t|
+    t.string   "title"
+    t.text     "content"
+    t.string   "license"
+    t.string   "author"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "songs", ["user_id"], name: "index_songs_on_user_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false

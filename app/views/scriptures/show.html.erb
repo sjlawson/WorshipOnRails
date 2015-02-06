@@ -1,3 +1,4 @@
+<div class='container'>
 <p id="notice"><%= notice %></p>
 
 <p>
@@ -5,9 +6,9 @@
   <%= @scripture.title %>
 </p>
 
-<p>
+<p class='col-sm-4'>
   <strong>Content:</strong>
-  <%= @scripture.content %>
+  <pre><%= @scripture.content %></pre>
 </p>
 
 <p>
@@ -17,8 +18,9 @@
 
 <p>
   <strong>User:</strong>
-  <%= @scripture.user %>
+  <%= @scripture.user.email %>
 </p>
 
 <%= link_to 'Edit', edit_scripture_path(@scripture) %> |
 <%= link_to 'Back', scriptures_path %>
+</div>
