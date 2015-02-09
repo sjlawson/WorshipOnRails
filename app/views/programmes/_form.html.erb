@@ -57,8 +57,9 @@
 
   </div>
   <div class='row'>
+    <label>Schedule</label><br />
     <div class='col-md-4'>
-      <label>Schedule</label><br />
+
       <div class='panel'>
         <%= f.fields_for :programmesSongs do |ps| %>
         <%= ps.hidden_field :song_id, :value => ps.object.song_id %>
@@ -75,11 +76,28 @@
             %>
           </div>
         </div>
-        <br />
-
         <% end %>
+      </div>
+    </div>
 
+    <div class='col-md-4'>
+      <div class='panel'>
+        <%= f.fields_for :programmesScriptures do |pscr| %>
+        <%= pscr.hidden_field :song_id, :value => pscr.object.scripture_id %>
+        <%= pscr.hidden_field :programme_id, :value => pscr.object.programme_id %>
+        <%= pscr.hidden_field :id, :value => pscr.object.id %>
 
+        <div class='row draggable panel'>
+          <div class='col-sm-6'>
+            <%= pscr.object.scripture.title %>
+            <%= pscr.label :programmeOrder, 'Programme Order'  %> :
+          </div>
+          <div class='col-sm-2'>
+            <%= pscr.text_field :programmeOrder, :size => 2
+            %>
+          </div>
+        </div>
+        <% end %>
 
       </div>
     </div>

@@ -83,7 +83,10 @@ class ProgrammesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def programme_params
-    params.require(:programme).permit( :title, :notes, :user_id, :scripture_ids => [], :resource_ids => [], :song_ids => [], programmesSongs_attributes: [:id, :song_id, :programme_id, :programmeOrder] )
+    params.require(:programme).permit( :title, :notes, :user_id, :scripture_ids => [], :resource_ids => [], :song_ids => [],
+                                       programmesSongs_attributes: [:id, :song_id, :programme_id, :programmeOrder],
+                                       programmesScriptures_attributes: [:id, :scripture_id, :programme_id, :programmeOrder]
+                                       )
   end
 
 end
