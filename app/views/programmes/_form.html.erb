@@ -21,12 +21,14 @@
   </div>
 <div class='col-md-4'>
   <div class="field">
-    <%= f.label :songs %><br />
+    <% f.fields_for :programmeSong do |ps| %>
+    <%= ps.label :songs %><br />
     <i> - hold Shift or Ctrl to select multiple </i><br />
-    <%= f.select :song_ids, options_for_select(
+    <%= ps.select :song_ids, options_for_select(
         @userSongs.map { |song|
         [song.title, song.id]
-        }, @programme.song_ids ), {}, {:multiple => true, :class => "multi-select", :style => "width:300px; height: 300px;" } %>
+        }, @programme.programmeSong_ids ), {}, {:multiple => true, :class => "multi-select", :style => "width:300px; height: 300px;" } %>
+    <% end %>
 
   </div>
 </div>
