@@ -1,5 +1,7 @@
 class Song < ActiveRecord::Base
   belongs_to :user
-  has_and_belongs_to_many :programmes
+
+  has_many :programmeSongs
+  has_many :programmes, through: :programmeSongs
 
 end

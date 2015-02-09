@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150205214108) do
+ActiveRecord::Schema.define(version: 20150207011900) do
 
   create_table "programmes", force: :cascade do |t|
     t.string   "title"
@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 20150205214108) do
   create_table "programmes_scriptures", force: :cascade do |t|
     t.integer "scripture_id"
     t.integer "programme_id"
+    t.integer "programmeOrder"
   end
 
   add_index "programmes_scriptures", ["programme_id"], name: "index_programmes_scriptures_on_programme_id"
@@ -42,6 +43,7 @@ ActiveRecord::Schema.define(version: 20150205214108) do
   create_table "programmes_songs", force: :cascade do |t|
     t.integer "programme_id"
     t.integer "song_id"
+    t.integer "programmeOrder"
   end
 
   add_index "programmes_songs", ["programme_id"], name: "index_programmes_songs_on_programme_id"
