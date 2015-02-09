@@ -30,6 +30,9 @@ class ProgrammesController < ApplicationController
     @userSongs = Song.where(:user_id => current_user.id)
     @userScriptures = Scripture.where(:user_id => current_user.id)
     @userResources = Resource.where(:user_id => current_user.id)
+
+    @programmeSongs = ProgrammeSong.where(:programme_id => @programme.id)
+
   end
 
   # POST /programmes
@@ -80,7 +83,7 @@ class ProgrammesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def programme_params
-    params.require(:programme).permit(:title, :notes, :user_id, :song_ids => [], :scripture_ids => [], :resource_ids => [])
+    params.require(:programme).permit( :title, :notes, :user_id, :scripture_ids => [], :resource_ids => [], song_ids => [] )
   end
 
 end
