@@ -56,20 +56,37 @@
     </div>
 
   </div>
+  <div class='row'>
+    <div class='col-md-4'>
+      <label>Schedule</label><br />
+      <div class='panel'>
+        <%= f.fields_for :programmesSongs do |ps| %>
+        <%= ps.hidden_field :song_id, :value => ps.object.song_id %>
+        <%= ps.hidden_field :programme_id, :value => ps.object.programme_id %>
+        <%= ps.hidden_field :id, :value => ps.object.id %>
 
-<div class='col-md-4'>
-  <label>Schedule</label>
+        <div class='row draggable panel'>
+          <div class='col-sm-6'>
+            <%= ps.object.song.title %>
+            <%= ps.label :programmeOrder, 'Programme Order'  %> :
+          </div>
+          <div class='col-sm-2'>
+            <%= ps.text_field :programmeOrder, :size => 2
+            %>
+          </div>
+        </div>
+        <br />
+
+        <% end %>
 
 
-</div>
 
+      </div>
+    </div>
+  </div>
 <%= f.hidden_field :user_id, :value => current_user.id %>
   <div class="actions">
     <%= f.submit %>
   </div>
 <% end %>
 
-<% @programmeSongs.each do |pSong| %>
-<%= pSong.title %><br />
-<%= pSong.programmeSong.programmeOrder %><br />
-<% end %>

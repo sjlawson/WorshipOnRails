@@ -1,4 +1,4 @@
-class ProgrammeResource < ActiveRecord::Base
+class ProgrammesResource < ActiveRecord::Base
   belongs_to :programme
   belongs_to :resource
 end

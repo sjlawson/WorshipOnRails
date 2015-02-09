@@ -31,7 +31,7 @@ class ProgrammesController < ApplicationController
     @userScriptures = Scripture.where(:user_id => current_user.id)
     @userResources = Resource.where(:user_id => current_user.id)
 
-    @programmeSongs = ProgrammeSong.where(:programme_id => @programme.id)
+    @programmeSongs = @programme.programmesSongs # ProgrammesSong.where(:programme_id => @programme.id)
 
   end
 
@@ -83,7 +83,7 @@ class ProgrammesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def programme_params
-    params.require(:programme).permit( :title, :notes, :user_id, :scripture_ids => [], :resource_ids => [], song_ids => [] )
+    params.require(:programme).permit( :title, :notes, :user_id, :scripture_ids => [], :resource_ids => [], :song_ids => [], programmesSongs_attributes: [:id, :song_id, :programme_id, :programmeOrder] )
   end
 
 end
