@@ -1,0 +1,115 @@
+
+#proj_video_background {
+position: absolute;
+bottom: 0px;
+right: 0px;
+min-width: 100%;
+min-height: 100%;
+width: auto;
+height: auto;
+z-index: -1000;
+overflow: hidden;
+}
+
+#proj_lyric_block {
+position: relative;
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    height: 99vh;
+    width: 40%;
+    border: none;
+    margin: 0 auto;
+    
+}
+
+#vidContainer {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 36px;
+    font-weight: bold;
+ 
+}
+
+#video_background {
+position: absolute;
+bottom: 0px;
+right: 0px;
+min-width: 100%;
+min-height: 100%;
+width: auto;
+height: auto;
+z-index: -1000;
+overflow: hidden;
+}
+
+#video_pattern {
+background-image: url(images/pattern.png);
+background-repeat: repeat;
+position: fixed;
+opacity: 1.0;
+left: 0px;
+top: 0px;
+width: 100%;
+height: 100%;
+z-index: 1;
+}
+
+#vidPreviewContainer {
+    margin: 15px;
+    width: 400px;
+    height: 250px;
+    position: relative;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    float: left;
+}
+
+#lyric_block {
+    position: relative;
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    width: 400px;
+    height: 250px;
+    border: 1px dotted #656565;
+}
+
+#service_menu {
+    margin: 15px;
+    float: left;
+    border: 2px inset blue;
+    overflow: scroll;
+    width: 200px;
+    height: 400px;
+}
+
+#service_menu p {
+    border-top: 1px dashed black;
+    border-bottom: 1px dashed black;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    cursor: pointer;
+}
+
+#slides {
+    margin: 15px;
+    float: left;
+    border: 2px inset blue;
+    overflow: scroll;
+    width: 200px;
+    height: 400px;
+}
+.slide_content {
+    font-size: 12px;
+    border-top: 1px dashed black;
+    border-bottom: 1px dashed black;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    cursor: pointer;
+}
