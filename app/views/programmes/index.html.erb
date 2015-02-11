@@ -17,9 +17,9 @@
       <tr>
         <td><%= programme.title %></td>
         <td><%= programme.notes %></td>
-        <td><%= link_to 'Show', programme %></td>
+        <td><%= link_to 'Open Programme', programme %></td>
         <td><%= link_to 'Edit', edit_programme_path(programme) %></td>
-        <td><%= link_to 'Destroy', programme, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Delete', programme, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

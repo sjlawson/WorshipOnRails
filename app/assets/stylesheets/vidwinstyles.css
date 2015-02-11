@@ -22,7 +22,7 @@ overflow: hidden;
     margin: 0 auto;
     margin-top: auto;
     margin-bottom: auto;
-    
+
 }
 
 #vidContainer {
@@ -33,7 +33,7 @@ overflow: hidden;
     text-align: center;
     font-size: 36px;
     font-weight: bold;
- 
+
 }
 
 #video_background {
@@ -93,7 +93,7 @@ z-index: 1;
     font-weight: bold;
     /*float: left;*/
 }
-
+#lyric_block,
 #preview_content_block {
     position: relative;
     display: table-cell;
@@ -157,4 +157,3 @@ z-index: 1;
     height: 25px;
     width: 25px;
 }
-

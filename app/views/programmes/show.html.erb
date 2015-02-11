@@ -1,49 +1,69 @@
 <div class='container'>
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Title:</strong>
-  <%= @programme.title %>
-</p>
-
-<p>
-  <strong>Notes:</strong>
-  <%= @programme.notes %>
-</p>
-
-<p>
-  <strong>Songs:</strong>
-  <div class='container-fluid'>
-    <% @programme.songs.each do |song| %>
-    <div class="row">
-      <%= song.title %>
+  <div class='row'>
+    <div class='col-sm-3'>
+      <h3><%= @programme.title %></h3>
     </div>
-    <% end %>
-  </div>
-<p>
 
-<p>
-  <strong>Scriptures & Texts:</strong>
-  <div class='container-fluid'>
-    <% @programme.scriptures.each do |scripture| %>
-    <div class="row">
-      <%= scripture.title %>
+    <div class='col-sm-3'>
+      <strong>Notes:</strong>
+      <div class='panel'>
+        <%= @programme.notes %>
+      </div>
     </div>
-    <% end %>
-  </div>
-<p>
-
-<p>
-  <strong>Media Resources:</strong>ToDo: add preview thumbs
-  <div class='container-fluid'>
-    <% @programme.resources.each do |resource| %>
-    <div class="row">
-      <%= resource.title %>
+    <div class='col-sm-3'>
+      <a class="btn btn-default" id='loadProjectorWindow'>Open Projector Window</a>
     </div>
-    <% end %>
+    <div class='col-sm-3'>
+      <a class="btn btn-default" id='closeProjectorWindow'>Close Projector Window</a>
+    </div>
   </div>
-<p>
+  <div class='row'>
+    <div class='col-sm-3' id='service_menu'>
 
+      <strong>Songs:</strong>
+      <% @programmeSongs.each do |pSong| %>
+      <p class='song_scheduler'
+         rel='<%= pSong.song_id %>'> <%= pSong.song.title %>
+      </p>
+      <% end %>
+      <hr />
+
+      <strong>Scriptures & Texts:</strong>
+      <% @programmeScriptures.each do |pScripture| %>
+      <p class='scripture_scheduler'
+         rel='<%= pScripture.scripture_id %>'>
+        <%= pScripture.scripture.title %>
+      </p>
+      <% end %>
+
+    </div>
+
+    <div class='col-sm-3'>
+      <div class='panel' id='slides'>
+
+
+      </div>
+    </div>
+    <div class='col-sm-3'>
+      <div id="vidPreviewContainer">
+        <div id="lyric_block">
+        </div>
+      </div>
+    </div>
+  </div> <!-- /row -->
+
+  <div class='row'>
+    <p>
+      <strong>Media Resources:</strong>ToDo: add preview thumbs
+      <div class='container-fluid'>
+        <% @programme.resources.each do |resource| %>
+        <div class="row">
+          <%= resource.title %>
+        </div>
+        <% end %>
+      </div>
+    <p>
+  </div>
   <strong>User:</strong>
   <%= @programme.user.email %>
 </p>
