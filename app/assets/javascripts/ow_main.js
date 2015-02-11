@@ -1,4 +1,6 @@
-
+var initComplete = false;
+var fontColor = '#ffffff';
+var vidBGColor = '#3344ff';
 var myNewWindow;
 var currentSlide;
 var lyricElement;
@@ -30,7 +32,7 @@ function loadProjectorWindow()
         myNewWindow.document.body.style.backgroundColor="black";
 
         var csslink = document.createElement("link");
-        csslink.href = "http://workspace.com/OpenWorship/videos/vidwinstyles.css";
+        csslink.href = "http://localhost:3000/assets/vidwinstyles.css";
         csslink.type = "text/css";
         csslink.rel = "stylesheet";
         myNewWindow.document.getElementsByTagName("head")[0].appendChild(csslink);
@@ -52,7 +54,7 @@ function loadProjectorWindow()
 
         var lyric_block = myNewWindow.document.createElement("div");
         lyric_block.setAttribute("id","proj_content_block");
-        lyric_block.innerHTML = this.currentSlide;
+        lyric_block.innerHTML = currentSlide != undefined ? currentSlide : '' ;
 
         var vidContainer = myNewWindow.document.createElement("div");
         vidContainer.setAttribute("id","vidContainer");
@@ -63,6 +65,8 @@ function loadProjectorWindow()
         myNewWindow.document.body.appendChild(vidContainer);
 
         lyricElement = myNewWindow.document.getElementById("proj_content_block");
+        setBGColor();
+        setFontColor();
     }
 }
 
@@ -75,6 +79,7 @@ function loadContentItem(id, type)
 {
     var slideData;
     $.get("/" + type + "/" + id + ".json", function( data ) {
+
         //bgUrl = slideData.r.resource_url;
         //bgType = slideData.r.resource_type;
 
@@ -83,7 +88,7 @@ function loadContentItem(id, type)
                 <div class='slide_content'><p>");
 
         slideContent = "<div>" + slideContent;
-        slideContent = slideContent.replace(/(?:\r\n|\r|\n)/g, '</p><p>');
+        slideContent = slideContent.replace(/(?:\r\n|\r|\n)/g, '</p><p class="lyric-line">');
         slideContent += "</p></div>";
         slideContent = slideContent.replace("<p></p>",'');
 
@@ -92,6 +97,8 @@ function loadContentItem(id, type)
     });
 
     $("#slides div:nth-child(1)").css("backgroundColor","#A2D3A2");
+    setFontColor();
+    setBGColor();
 }
 
 function change_content(content_element)
@@ -123,6 +130,8 @@ function change_content(content_element)
     }
     this.currentSlide = content;
     $(content_element).css('backgroundColor','#A2D3A2');
+    setFontColor();
+    setBGColor();
 }
 
 function blackScreen()
@@ -135,7 +144,44 @@ function blackScreen()
     }
 }
 
-$(document).ready(function()
+function setFontColor()
+{
+    if(myNewWindow != null) {
+        $(lyricElement).css('color', fontColor );
+    }
+    $('#lyric_block .lyric-line').css('color', fontColor);
+}
+
+function setBGColor()
+{
+    if(myNewWindow != null) {
+        $(myNewWindow.document.body).css('background-color', vidBGColor );
+    }
+    $('#vidPreviewContainer').css('background-color', vidBGColor);
+}
+
+var minicolorsSettings = {
+    defaults: {
+        animationSpeed: 50,
+        animationEasing: 'swing',
+        change: null,
+        changeDelay: 0,
+        control: 'hue',
+        dataUris: true,
+        defaultValue: '',
+        hide: null,
+        hideSpeed: 100,
+        inline: false,
+        letterCase: 'lowercase',
+        opacity: false,
+        position: 'bottom left',
+        show: null,
+        showSpeed: 100,
+        theme: 'bootstrap'
+    }
+};
+
+function initElements()
 {
     $('.slide_content').on('click', function(event) {
         change_content(event.target);
@@ -157,5 +203,26 @@ $(document).ready(function()
         closeProjector();
     });
 
+    $('#goToBlack').on('click', function() {
+        blackScreen();
+    });
+
+    $('input#font_color').minicolors(minicolorsSettings);
+    $('input#projector_bg_color').minicolors(minicolorsSettings);
+
+    $('input#font_color').on('blur', function(event) {
+        fontColor = $(event.target).val();
+        setFontColor();
+    });
+    $('input#projector_bg_color').on('blur', function(event) {
+        vidBGColor = $(event.target).val();
+        setBGColor();
+    });
+
     liveViewPort = $('#lyric_block');
-});
+
+    initComplete = true;
+}
+
+$(document).ready(function() { initElements();});
+$(document).on('page:load', function() { initElements();}); // rails doesn't always trigger $(document).ready

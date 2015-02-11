@@ -10,13 +10,18 @@
         <%= @programme.notes %>
       </div>
     </div>
-    <div class='col-sm-3'>
+    <div class='col-sm-2'>
       <a class="btn btn-default" id='loadProjectorWindow'>Open Projector Window</a>
     </div>
-    <div class='col-sm-3'>
+    <div class='col-sm-2'>
       <a class="btn btn-default" id='closeProjectorWindow'>Close Projector Window</a>
     </div>
-  </div>
+    <div class='col-sm-2'>
+      <a class="btn btn-default" id='goToBlack'>Blank Screen</a>
+    </div>
+  </div> <!-- /row -->
+
+<!-- Main control area -->
   <div class='row'>
     <div class='col-sm-3' id='service_menu'>
 
@@ -49,7 +54,18 @@
         <div id="lyric_block">
         </div>
       </div>
+
+<div class='row'>
+        <label>Font Colour</label>
+        <input type="text" id='font_color' />
+</div>
+<div class='row'>
+        <label>Background Colour</label>
+        <input type="text" id='projector_bg_color' />
+</div>
+
     </div>
+
   </div> <!-- /row -->
 
   <div class='row'>
