@@ -12,6 +12,9 @@ class ProgrammesController < ApplicationController
   # GET /programmes/1
   # GET /programmes/1.json
   def show
+    @programmeSongs = @programme.programmesSongs.order( :programmeOrder )
+    @programmeScriptures = @programme.programmesScriptures.order( :programmeOrder )
+
   end
 
   # GET /programmes/new
@@ -31,7 +34,7 @@ class ProgrammesController < ApplicationController
     @userScriptures = Scripture.where(:user_id => current_user.id)
     @userResources = Resource.where(:user_id => current_user.id)
 
-    @programmeSongs = @programme.programmesSongs # ProgrammesSong.where(:programme_id => @programme.id)
+    @programmeSongs = @programme.programmesSongs
 
   end
 
