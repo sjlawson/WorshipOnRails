@@ -72,9 +72,10 @@
     <p>
       <strong>Media Resources:</strong>ToDo: add preview thumbs
       <div class='container-fluid'>
+        <a class='clear-background btn btn-standard' >Clear Background</a><br />
         <% @programme.resources.each do |resource| %>
         <div class="row">
-          <%= resource.title %>
+          <a class='media-chooser' rel='<%= resource.id %>' ><%= resource.title %></a>
         </div>
         <% end %>
       </div>
