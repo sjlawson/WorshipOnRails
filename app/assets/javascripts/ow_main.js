@@ -18,9 +18,52 @@ function closeProjector()
 function initProjectorWindow()
 {
     var NewWindow = window.open("about:blank", '_blank','width=800,height=600');
-    // alert("Preparing window, press okay to continue");
 
     return NewWindow;
+}
+
+function setMediaBackground()
+{
+    switch (bgType) {
+        case 'video/mp4':
+          videoElement = myNewWindow.document.createElement("video");
+          videoElement.setAttribute("id","proj_video_background");
+          videoElement.setAttribute("preload","auto");
+
+          videoElement.setAttribute("autoplay","true");
+          videoElement.setAttribute("loop","loop");
+          videoElement.setAttribute("muted","muted");
+          videoElement.setAttribute("volume","0");
+
+          var vidSrc = myNewWindow.document.createElement("source");
+          vidSrc.setAttribute("src", bgUrl);
+          vidSrc.setAttribute("type",bgType);
+          vidSrc.setAttribute("id","video-source-player");
+
+          videoElement.appendChild(vidSrc);
+          vidContainer = myNewWindow.document.getElementById('vidContainer');
+          vidContainer.appendChild(videoElement);
+        break;
+        case 'jpg':
+        case 'gif':
+        case 'png':
+        case 'bmp':
+        case 'tif':
+        videoElement = myNewWindow.document.getElementById("proj_video_background");
+        if(videoElement != undefined) {
+            videoElement.parentNode.removeChild(videoElement);
+        }
+
+        $(myNewWindow.document.body).css('background-image', 'url(' + bgUrl + ')');
+        break;
+        default:
+        videoElement = myNewWindow.document.getElementById("proj_video_background");
+        if(videoElement != undefined) {
+            videoElement.parentNode.removeChild(videoElement);
+        }
+
+        $(myNewWindow.document.body).css('background-image', 'none');
+    }
 }
 
 function loadProjectorWindow()
@@ -37,21 +80,6 @@ function loadProjectorWindow()
         csslink.rel = "stylesheet";
         myNewWindow.document.getElementsByTagName("head")[0].appendChild(csslink);
 
-        videoElement = myNewWindow.document.createElement("video");
-        videoElement.setAttribute("id","proj_video_background");
-        videoElement.setAttribute("preload","auto");
-
-        videoElement.setAttribute("autoplay","true");
-        videoElement.setAttribute("loop","loop");
-        videoElement.setAttribute("muted","muted");
-        videoElement.setAttribute("volume","0");
-
-        var vidSrc = myNewWindow.document.createElement("source");
-        vidSrc.setAttribute("src", bgUrl);
-        vidSrc.setAttribute("type",bgType);
-
-        videoElement.appendChild(vidSrc);
-
         var lyric_block = myNewWindow.document.createElement("div");
         lyric_block.setAttribute("id","proj_content_block");
         lyric_block.innerHTML = currentSlide != undefined ? currentSlide : '' ;
@@ -61,7 +89,7 @@ function loadProjectorWindow()
 
         vidContainer.appendChild(lyric_block);
 
-        vidContainer.appendChild(videoElement);
+        // vidContainer.appendChild(videoElement);
         myNewWindow.document.body.appendChild(vidContainer);
 
         lyricElement = myNewWindow.document.getElementById("proj_content_block");
@@ -72,7 +100,11 @@ function loadProjectorWindow()
 
 function setBackground(resourceId)
 {
-
+    $.get("/resources/" + resourceId + ".json", function( resourceObj) {
+        bgUrl = resourceObj.location;
+        bgType = resourceObj.resourceType;
+        setMediaBackground();
+    } );
 }
 
 function loadContentItem(id, type)
@@ -214,9 +246,21 @@ function initElements()
         fontColor = $(event.target).val();
         setFontColor();
     });
+
     $('input#projector_bg_color').on('blur', function(event) {
         vidBGColor = $(event.target).val();
         setBGColor();
+    });
+
+    $('.media-chooser').on('click', function(event) {
+        setBackground($(event.target).attr('rel'));
+    });
+
+    $('.clear-background').on('click', function(event) {
+        bgType = '';
+        bgUrl = '';
+        setMediaBackground();
+        // $(myNewWindow.document.body).css('background-image', 'none');
     });
 
     liveViewPort = $('#lyric_block');
