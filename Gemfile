@@ -8,6 +8,7 @@ gem 'rails', '4.2.0'
 
 gem 'pg'
 gem 'puma'
+gem 'rails_12factor'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
