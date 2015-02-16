@@ -21,11 +21,9 @@ test:
   database: db/test.sqlite3
 
 production:
-  database: postgres://ec2-54-204-45-65.compute-1.amazonaws.com:5432/deggfn2l4mgbvq
+  database: <%= ENV['HEROKU_POSTGRESQL_GRAY_URL'] %>
   adapter: postgresql
   encoding: unicode
   # For details on connection pooling, see rails configuration guide
   # http://guides.rubyonrails.org/configuring.html#database-pooling
   pool: 5
-  username: <%= ENV['LAWSON-WOR-USERNAME'] %>
-  password: <%= ENV['LAWSON-WOR-PASSWORD'] %>
