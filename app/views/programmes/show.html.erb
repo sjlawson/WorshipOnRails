@@ -1,3 +1,7 @@
+<script type='text/javascript'>
+  hostWithPort = "<%= request.host_with_port() %>";
+</script>
+
 <div class='container'>
   <div class='row'>
     <div class='col-sm-3'>
@@ -55,14 +59,40 @@
         </div>
       </div>
 
-<div class='row'>
-        <label>Font Colour</label>
+<div class='row panel'>
+  <div class='col-sm-5'>
+        <label>Font Color</label>
+  </div>
+  <div class='col-sm-4'>
         <input type="text" id='font_color' />
+  </div>
+  <div class='col-sm-3'>
+        <a id='set_projector_font_color' class='btn btn-default'> Set Font Color </a></div>
+  </div>
+
+<div class='row panel'>
+  <div class='col-sm-5'>
+        <label>Background Color</label>
+  </div>
+  <div class='col-sm-4'>
+    <input type="text" id='projector_bg_color' />
+  </div>
+  <div class='col-sm-3'>
+    <a id='set_projector_bg_color' class='btn btn-default'> Set BG Color </a>
+  </div>
 </div>
-<div class='row'>
-        <label>Background Colour</label>
-        <input type="text" id='projector_bg_color' />
-</div>
+
+<!-- <div class='row panel'> -->
+<!--   <div class='col-sm-5'> -->
+<!--     <label>Background Opacity</label> -->
+<!--   </div> -->
+<!--   <div class='col-sm-4'> -->
+<!--         <input type="text" id='projector_opacity' size='2' /> -->
+<!--   </div> -->
+<!--   <div class='col-sm-3'> -->
+<!--         <a id='set_projector_opacity' class='btn btn-default'> Set BG Opacity </a> -->
+<!--   </div> -->
+<!-- </div> -->
 
     </div>
 
@@ -72,10 +102,17 @@
     <p>
       <strong>Media Resources:</strong>ToDo: add preview thumbs
       <div class='container-fluid'>
-        <a class='clear-background btn btn-standard' >Clear Background</a><br />
-        <% @programme.resources.each do |resource| %>
+        <a class='clear-background btn btn-default' >Clear Background</a><br />
+        <% @programme.resources.in_groups_of(4).each do |resourceRow| %>
+        <% resourceRow.select! {|x| !x.nil?} %>
         <div class="row">
-          <a class='media-chooser' rel='<%= resource.id %>' ><%= resource.title %></a>
+          <% resourceRow.each do |resource| %>
+          <div class='col-sm-3'>
+            <a class='media-chooser' rel='<%= resource.id %>' >
+              <img src="<%= resource.location %>" /><br />
+              <%= resource.title %></a>
+          </div>
+          <% end %>
         </div>
         <% end %>
       </div>

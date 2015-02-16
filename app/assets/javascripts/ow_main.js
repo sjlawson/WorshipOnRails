@@ -8,6 +8,7 @@ var liveViewPort;
 var videoElement;
 var bgUrl;
 var bgType;
+var hostWithPort;
 
 function closeProjector()
 {
@@ -54,16 +55,31 @@ function setMediaBackground()
             videoElement.parentNode.removeChild(videoElement);
         }
 
-        $(myNewWindow.document.body).css('background-image', 'url(' + bgUrl + ')');
+        $(myNewWindow.document.getElementById("vidContainer")).css('background-image', 'url(' + bgUrl + ')').css('background-size', '100vw 100vh').css('background-repeat','no-repeat').css('background-origin','border-box');
+
+        $('#vidPreviewContainer').css('background-image', 'url(' + bgUrl + ')').css('background-size', '300px 200px').css('background-repeat','no-repeat');
+
         break;
         default:
         videoElement = myNewWindow.document.getElementById("proj_video_background");
         if(videoElement != undefined) {
             videoElement.parentNode.removeChild(videoElement);
         }
-
+        $('#vidPreviewContainer').css('background-image', 'none');
+        $(myNewWindow.document.getElementById("vidContainer")).css('background-image', 'none');
         $(myNewWindow.document.body).css('background-image', 'none');
     }
+}
+
+function setBGOpacity(opacityPercent)
+{
+    var opacity = opacityPercent / 100;
+    $(myNewWindow.document.getElementById("vidContainer")).css('opacity', opacity );
+    $('#vidPreviewContainer').css('opacity', opacity);
+    opacityPercent = opacity * 100;
+    $('#projector_opacity').val(opacityPercent);
+    $('#lyric_block').css('opacity','1').css('z-index',10000);
+    $(myNewWindow.document.getElementById("proj_content_block")).css('opacity','1').css('z-index',10000);
 }
 
 function loadProjectorWindow()
@@ -75,7 +91,7 @@ function loadProjectorWindow()
         myNewWindow.document.body.style.backgroundColor="black";
 
         var csslink = document.createElement("link");
-        csslink.href = "http://localhost:3000/assets/vidwinstyles.css";
+        csslink.href = "http://" + hostWithPort + "/assets/vidwinstyles.css";
         csslink.type = "text/css";
         csslink.rel = "stylesheet";
         myNewWindow.document.getElementsByTagName("head")[0].appendChild(csslink);
@@ -242,14 +258,18 @@ function initElements()
     $('input#font_color').minicolors(minicolorsSettings);
     $('input#projector_bg_color').minicolors(minicolorsSettings);
 
-    $('input#font_color').on('blur', function(event) {
-        fontColor = $(event.target).val();
+    $('#set_projector_font_color').on('click', function() {
+        fontColor = $('#font_color').val();
         setFontColor();
     });
 
-    $('input#projector_bg_color').on('blur', function(event) {
-        vidBGColor = $(event.target).val();
+    $('#set_projector_bg_color').on('click', function() {
+        vidBGColor = $('#projector_bg_color').val();
         setBGColor();
+    });
+
+    $('#set_projector_opacity').on('click', function() {
+        setBGOpacity($('#projector_opacity').val());
     });
 
     $('.media-chooser').on('click', function(event) {

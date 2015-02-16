@@ -19,7 +19,8 @@ overflow: hidden;
     text-align: center;
     font-size: 36px;
     font-weight: bold;
-
+    background-size: 100vw 100vh;
+    background-repeat: no-repeat;
 }
 
 #video_background {
