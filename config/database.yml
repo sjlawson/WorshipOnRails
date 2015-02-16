@@ -21,14 +21,11 @@ test:
   database: db/test.sqlite3
 
 production:
-  #  *default
-  # database: db/production.sqlite3
-  database: postgres://chfgicskrqpoca:KBpSm7KcEJZ_m3GnTp9j-E0ANl@ec2-54-83-9-127.compute-1.amazonaws.com:5432/db7uukvn0eolao
+  database: postgres://ec2-54-204-45-65.compute-1.amazonaws.com:5432/deggfn2l4mgbvq
   adapter: postgresql
   encoding: unicode
   # For details on connection pooling, see rails configuration guide
   # http://guides.rubyonrails.org/configuring.html#database-pooling
   pool: 5
-  username: <%= ENV['LAWSON-ACCOUNT-USERNAME'] %>
-  password: <%= ENV['LAWSON-ACCOUNT-PASSWORD'] %>
-
+  username: <%= ENV['LAWSON-WOR-USERNAME'] %>
+  password: <%= ENV['LAWSON-WOR-PASSWORD'] %>
