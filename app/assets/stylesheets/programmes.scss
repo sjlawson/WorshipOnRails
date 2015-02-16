@@ -1,3 +1,14 @@
 // Place all the styles related to the programmes controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+a.media-chooser {
+  display: inline-block;
+  text-align: center;
+}
+
+a.media-chooser img {
+  width: 128px;
+  height: auto;
+  padding: 2px;
+}
