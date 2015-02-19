@@ -25,7 +25,7 @@
     </div>
   </div> <!-- /row -->
 
-<!-- Main control area -->
+  <!-- Main control area -->
   <div class='row'>
     <div class='col-sm-3' id='service_menu'>
 
@@ -54,45 +54,69 @@
       </div>
     </div>
     <div class='col-sm-3'>
-      <div id="vidPreviewContainer">
-        <div id="lyric_block">
+      <div id="cloneWindowBody">
+        <div id="cloneWinVidContainer">
+        </div>
+        <div id="cloneProjContentContainer">
+          <div id="clone_lyric_block">
+          </div>
         </div>
       </div>
 
-<div class='row panel'>
-  <div class='col-sm-5'>
-        <label>Font Color</label>
-  </div>
-  <div class='col-sm-4'>
-        <input type="text" id='font_color' />
-  </div>
-  <div class='col-sm-3'>
-        <a id='set_projector_font_color' class='btn btn-default'> Set Font Color </a></div>
-  </div>
 
-<div class='row panel'>
-  <div class='col-sm-5'>
-        <label>Background Color</label>
-  </div>
-  <div class='col-sm-4'>
-    <input type="text" id='projector_bg_color' />
-  </div>
-  <div class='col-sm-3'>
-    <a id='set_projector_bg_color' class='btn btn-default'> Set BG Color </a>
-  </div>
-</div>
+      <div class='row panel'>
+        <div class='col-sm-5'>
+          <label>Font Color</label>
+        </div>
+        <div class='col-sm-4'>
+          <input type="text" id='font_color' />
+        </div>
+        <div class='col-sm-3'>
+          <a id='set_projector_font_color' class='btn btn-default'> Set Font Color </a></div>
+      </div>
 
-<!-- <div class='row panel'> -->
-<!--   <div class='col-sm-5'> -->
-<!--     <label>Background Opacity</label> -->
-<!--   </div> -->
-<!--   <div class='col-sm-4'> -->
-<!--         <input type="text" id='projector_opacity' size='2' /> -->
-<!--   </div> -->
-<!--   <div class='col-sm-3'> -->
-<!--         <a id='set_projector_opacity' class='btn btn-default'> Set BG Opacity </a> -->
-<!--   </div> -->
-<!-- </div> -->
+      <div class='row panel'>
+        <div class='col-sm-5'>
+          <label>Background Color</label>
+        </div>
+        <div class='col-sm-4'>
+          <input type="text" id='projector_bg_color' />
+        </div>
+        <div class='col-sm-3'>
+          <a id='set_projector_bg_color' class='btn btn-default'> Set BG Color </a>
+        </div>
+      </div>
+
+      <div class='row panel'>
+        <div class='col-sm-5'>
+          <label>Background Opacity</label>
+        </div>
+        <div class='col-sm-4'>
+          <input type="text" id='projector_opacity' size='2' />
+        </div>
+        <div class='col-sm-3'>
+          <a id='set_projector_opacity' class='btn btn-default'> Set BG Opacity </a>
+        </div>
+      </div>
+
+      <div class='row panel'>
+        <div class='col-sm-5'>
+          <label>Font</label>
+        </div>
+        <div class='col-sm-4'>
+          <input type="text" id='set_font_family' size='2' />
+          <br />
+          <br />
+          <input type="text" id='set_font_size' size='2' />
+        </div>
+        <div class='col-sm-3'>
+          <a id='set_font_btn' class='btn btn-default'> Set Font </a>
+          <br />
+          <br />
+          <a id='set_font_size_btn' class='btn btn-default'> Set Font Size </a>
+
+        </div>
+      </div>
 
     </div>
 
@@ -109,7 +133,7 @@
           <% resourceRow.each do |resource| %>
           <div class='col-sm-3'>
             <a class='media-chooser' rel='<%= resource.id %>' >
-              <img src="<%= resource.location %>" /><br />
+              <img src="<%= resource.location %>" rel='<%= resource.id %>' /><br />
               <%= resource.title %></a>
           </div>
           <% end %>
