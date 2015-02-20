@@ -27,59 +27,87 @@ function setMediaBackground()
 {
     switch (bgType) {
         case 'video/mp4':
-          videoElement = myNewWindow.document.createElement("video");
-          videoElement.setAttribute("id","proj_video_background");
-          videoElement.setAttribute("preload","auto");
+        if(myNewWindow != null) {
+            videoElement = myNewWindow.document.createElement("video");
+            videoElement.setAttribute("id","proj_video_background");
+            videoElement.setAttribute("preload","auto");
 
-          videoElement.setAttribute("autoplay","true");
-          videoElement.setAttribute("loop","loop");
-          videoElement.setAttribute("muted","muted");
-          videoElement.setAttribute("volume","0");
+            videoElement.setAttribute("autoplay","true");
+            videoElement.setAttribute("loop","loop");
+            videoElement.setAttribute("muted","muted");
+            videoElement.setAttribute("volume","0");
 
-          var vidSrc = myNewWindow.document.createElement("source");
-          vidSrc.setAttribute("src", bgUrl);
-          vidSrc.setAttribute("type",bgType);
-          vidSrc.setAttribute("id","video-source-player");
+            var vidSrc = myNewWindow.document.createElement("source");
+            vidSrc.setAttribute("src", bgUrl);
+            vidSrc.setAttribute("type",bgType);
+            vidSrc.setAttribute("id","video-source-player");
 
-          videoElement.appendChild(vidSrc);
-          vidContainer = myNewWindow.document.getElementById('vidContainer');
-          vidContainer.appendChild(videoElement);
+            videoElement.appendChild(vidSrc);
+            vidContainer = myNewWindow.document.getElementById('vidContainer');
+            vidContainer.appendChild(videoElement);
+        }
+        /* ToDo: generate video thumb */
+        $('#cloneWinVidContainer')
+            .append("<video id='clone_proj_video_background' muted='muted' volume='0'></video>");
+        $('#clone_proj_video_background')
+            .append("<source id='clone-video-source-player'  type='" + bgType + "' src='" + bgUrl  + "' />" );
+
         break;
         case 'jpg':
         case 'gif':
         case 'png':
         case 'bmp':
         case 'tif':
-        videoElement = myNewWindow.document.getElementById("proj_video_background");
-        if(videoElement != undefined) {
-            videoElement.parentNode.removeChild(videoElement);
+        if(myNewWindow != null) {
+
+            videoElement = myNewWindow.document.getElementById("proj_video_background");
+            // if(videoElement != undefined) {
+            if($(videoElement)) {
+                $(videoElement).remove(); // .parentNode.removeChild(videoElement);
+            }
+
+            $(myNewWindow.document.getElementById("vidContainer")).css('background-image', 'url(' + bgUrl + ')')
+                .css('background-size', '100vw 100vh')
+                .css('background-repeat','no-repeat')
+                .css('background-origin','border-box');
         }
 
-        $(myNewWindow.document.getElementById("vidContainer")).css('background-image', 'url(' + bgUrl + ')').css('background-size', '100vw 100vh').css('background-repeat','no-repeat').css('background-origin','border-box');
+        if($('#clone_proj_video_background')) {
+            $('#clone_proj_video_background').remove();
+        }
 
-        $('#vidPreviewContainer').css('background-image', 'url(' + bgUrl + ')').css('background-size', '300px 200px').css('background-repeat','no-repeat');
+        $('#cloneWinVidContainer').css('background-image', 'url(' + bgUrl + ')')
+            .css('background-size', '300px 200px')
+            .css('background-repeat','no-repeat');
 
         break;
         default:
-        videoElement = myNewWindow.document.getElementById("proj_video_background");
-        if(videoElement != undefined) {
-            videoElement.parentNode.removeChild(videoElement);
+        if(myNewWindow != null) {
+            videoElement = myNewWindow.document.getElementById("proj_video_background");
+            if(videoElement != undefined) {
+                videoElement.parentNode.removeChild(videoElement);
+            }
+            $(myNewWindow.document.getElementById("vidContainer")).css('background-image', 'none');
+            $(myNewWindow.document.body).css('background-image', 'none');
         }
-        $('#vidPreviewContainer').css('background-image', 'none');
-        $(myNewWindow.document.getElementById("vidContainer")).css('background-image', 'none');
-        $(myNewWindow.document.body).css('background-image', 'none');
+        if($('#clone_proj_video_background')) {
+            $('#clone_proj_video_background').remove();
+        }
+
+        $('#cloneWinVidContainer').css('background-image', 'none');
     }
 }
 
 function setBGOpacity(opacityPercent)
 {
     var opacity = opacityPercent / 100;
-    $(myNewWindow.document.getElementById("vidContainer")).css('opacity', opacity );
-    $('#vidPreviewContainer').css('opacity', opacity);
+    if(myNewWindow != null) {
+        $(myNewWindow.document.getElementById("vidContainer")).css('opacity', opacity );
+    }
+
+    $('#cloneWinVidContainer').css('opacity', opacity);
     opacityPercent = opacity * 100;
     $('#projector_opacity').val(opacityPercent);
-    $('#lyric_block').css('opacity','1').css('z-index',10000);
-    $(myNewWindow.document.getElementById("proj_content_block")).css('opacity','1').css('z-index',10000);
 }
 
 function loadProjectorWindow()
@@ -96,17 +124,24 @@ function loadProjectorWindow()
         csslink.rel = "stylesheet";
         myNewWindow.document.getElementsByTagName("head")[0].appendChild(csslink);
 
+        var lyric_block_container = myNewWindow.document.createElement("div");
+        lyric_block_container.setAttribute("id","proj_content_container");
+
         var lyric_block = myNewWindow.document.createElement("div");
         lyric_block.setAttribute("id","proj_content_block");
         lyric_block.innerHTML = currentSlide != undefined ? currentSlide : '' ;
 
+        lyric_block_container.appendChild(lyric_block);
+
         var vidContainer = myNewWindow.document.createElement("div");
         vidContainer.setAttribute("id","vidContainer");
 
-        vidContainer.appendChild(lyric_block);
+        // vidContainer.appendChild(lyric_block);
+
 
         // vidContainer.appendChild(videoElement);
         myNewWindow.document.body.appendChild(vidContainer);
+        myNewWindow.document.body.appendChild(lyric_block_container);
 
         lyricElement = myNewWindow.document.getElementById("proj_content_block");
         setBGColor();
@@ -127,10 +162,6 @@ function loadContentItem(id, type)
 {
     var slideData;
     $.get("/" + type + "/" + id + ".json", function( data ) {
-
-        //bgUrl = slideData.r.resource_url;
-        //bgType = slideData.r.resource_type;
-
         var slideContent = data.content.replace(/\[(.*?)\]/g,
                "</div><label class='slide_label'>$1</label> \
                 <div class='slide_content'><p>");
@@ -167,7 +198,7 @@ function change_content(content_element)
     if(myNewWindow != null) {
         lyricElement.innerHTML = content;
     }
-    $('#lyric_block').html(content);
+    $('#clone_lyric_block').html(content);
 
     var slideChildren = document.getElementById("slides").childNodes;
     for (var i = 0; i < slideChildren.length; i++) {
@@ -197,7 +228,7 @@ function setFontColor()
     if(myNewWindow != null) {
         $(lyricElement).css('color', fontColor );
     }
-    $('#lyric_block .lyric-line').css('color', fontColor);
+    $('#clone_lyric_block .lyric-line').css('color', fontColor);
 }
 
 function setBGColor()
@@ -205,7 +236,7 @@ function setBGColor()
     if(myNewWindow != null) {
         $(myNewWindow.document.body).css('background-color', vidBGColor );
     }
-    $('#vidPreviewContainer').css('background-color', vidBGColor);
+    $('#cloneWindowBody').css('background-color', vidBGColor);
 }
 
 var minicolorsSettings = {
@@ -263,14 +294,22 @@ function initElements()
         setFontColor();
     });
 
+    $('#font_color').val(fontColor);
+    setFontColor();
+
     $('#set_projector_bg_color').on('click', function() {
         vidBGColor = $('#projector_bg_color').val();
         setBGColor();
     });
 
+    $('#projector_bg_color').val(vidBGColor);
+    setBGColor();
+
     $('#set_projector_opacity').on('click', function() {
         setBGOpacity($('#projector_opacity').val());
     });
+
+    $('#projector_opacity').val($('#cloneWinVidContainer').css('opacity') * 100);
 
     $('.media-chooser').on('click', function(event) {
         setBackground($(event.target).attr('rel'));
@@ -280,10 +319,9 @@ function initElements()
         bgType = '';
         bgUrl = '';
         setMediaBackground();
-        // $(myNewWindow.document.body).css('background-image', 'none');
     });
 
-    liveViewPort = $('#lyric_block');
+    liveViewPort = $('#clone_lyric_block');
 
     initComplete = true;
 }
