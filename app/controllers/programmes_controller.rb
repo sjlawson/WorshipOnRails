@@ -15,6 +15,8 @@ class ProgrammesController < ApplicationController
     @programmeSongs = @programme.programmesSongs.order( :programmeOrder )
     @programmeScriptures = @programme.programmesScriptures.order( :programmeOrder )
 
+    @fontList = Array.new(['American Typewriter', 'Courier New', 'Courier', 'Monaco', 'Arial Rounded MT Bold', 'Helvetica', 'Arial', 'sans-serif', 'Baskerville', 'Georgia', 'Garamond', 'Times New Roman', 'Times', 'serif', 'Book Antiqua', 'Bookman Old Style', 'Brush Script MT', 'Comic Sans', 'Chalkboard', 'Didot', 'Futura', 'Impact', 'Gill Sans', 'Lucida Grande', 'Lucida Sans Unicode', 'Verdana', 'Helvetica Neue', 'Hoefler Text', 'Lucida Grande', 'Marker Felt', 'Myriad', 'Optima', 'Palatino', 'Cochin', 'Goudy Old Style']);
+
   end
 
   # GET /programmes/new

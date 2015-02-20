@@ -13,5 +13,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
-//= require jquery.minicolors
 //= require_tree .
+//= require wColorPicker.min
+/* require jquery.minicolors */

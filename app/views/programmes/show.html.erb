@@ -21,100 +21,128 @@
       <a class="btn btn-default" id='closeProjectorWindow'>Close Projector Window</a>
     </div>
     <div class='col-sm-2'>
-      <a class="btn btn-default" id='goToBlack'>Blank Screen</a>
+      <a class="btn btn-default" id='goToBlank'>Blank Screen</a>
     </div>
   </div> <!-- /row -->
 
   <!-- Main control area -->
   <div class='row'>
-    <div class='col-sm-3 panel' id='service_menu'>
-
-      <strong>Songs:</strong>
+    <div class='col-sm-3 panel panel-default' id='service_menu'>
+      <div class='panel-heading'>
+        <b>Songs:</b>
+      </div>
       <% @programmeSongs.each do |pSong| %>
       <p class='song_scheduler'
          rel='<%= pSong.song_id %>'> <%= pSong.song.title %>
       </p>
       <% end %>
       <hr />
-
-      <strong>Scriptures & Texts:</strong>
+      <div class='panel-heading'>
+        <b>Scripture & Texts:</b>
+      </div>
       <% @programmeScriptures.each do |pScripture| %>
       <p class='scripture_scheduler'
          rel='<%= pScripture.scripture_id %>'>
         <%= pScripture.scripture.title %>
       </p>
       <% end %>
-
     </div>
 
     <div class='col-sm-3'>
       <div class='panel' id='slides'>
-
-
+        <!-- dynamic jQuery content -->
       </div>
     </div>
     <div class='col-sm-4'>
-      <div id="cloneWindowBody">
-        <div id="cloneWinVidContainer">
-
+      <div class='panel panel-default'>
+        <div class='panel-heading'>
+          <b>Live Feed</b>
         </div>
-        <div id="cloneProjContentContainer">
-          <div id="clone_lyric_block">
+        <div class='panel-body'>
+          <div id="cloneWindowBody">
+            <div id="cloneWinVidContainer">
+              <!-- dynamic jQuery vidoe content -->
+            </div>
+            <div id="cloneProjContentContainer">
+              <div id="clone_lyric_block">
+                <!-- dynamic jQuery content -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class='row'>
+        <div class='panel panel-default'>
+          <div class='panel-heading'><b>Live Font Options</b>
+            <a id='set_font_defaults' class='pull-right btn btn-default btn-sm'>Reset</a>
+          </div>
+          <div class='panel-body'>
+
+            <div class='col-sm-6'>
+              <!-- <input type="text" id='set_font_family' size='10' /> -->
+              <select id='set_font_family'  >
+                <% @fontList.each do |fontName| %>
+                <option value="<%= fontName %>" style='font-face: <%= fontName %>;'>
+                  <%= fontName %>
+                </option>
+                <% end %>
+              </select>
+              <a id='set_font_btn' class='btn btn-default btn-sm'>Set Font</a>
+            </div>
+            <div class='col-sm-3'>
+              <input type="text" id='set_font_size' size='2' />
+              <a id='set_font_size_btn' class='btn btn-default btn-sm'>Set Size</a>
+            </div>
+            <div class='col-sm-1'>
+              <p><br /></p>
+            </div>
           </div>
         </div>
       </div>
 
       <div class='row panel'>
-        <div class='col-sm-5'>
+        <div class='col-sm-4'>
           <label>Font Color</label>
         </div>
-        <div class='col-sm-3'>
-          <input type="text" id='font_color' />
+        <div class='col-sm-4'>
+          <input type="text" id='font_color' size='5'/>
+          <div class="wColorPicker-button">
+            <div id='fontColorPicker' class="wColorPicker-button-color"
+                 style="height: 15px;">
+            </div>
+          </div>
         </div>
         <div class='col-sm-3'>
-          <a id='set_projector_font_color' class='btn btn-default'>Set Font Color</a></div>
+          <a id='set_projector_font_color' class='btn btn-default btn-sm'>Set Font Color</a></div>
       </div>
 
       <div class='row panel'>
-        <div class='col-sm-5'>
-          <label>Background Color</label>
+        <div class='col-sm-4'>
+          <label>Background Color</label><br />
+        </div>
+        <div class='col-sm-4'>
+          <input type="text" id='projector_bg_color' size='5' /><br />
+          <div class="wColorPicker-button">
+            <div id='bgPicker' class="wColorPicker-button-color"
+                 style="height: 15px;">
+            </div>
+          </div>
         </div>
         <div class='col-sm-3'>
-          <input type="text" id='projector_bg_color' />
-        </div>
-        <div class='col-sm-3'>
-          <a id='set_projector_bg_color' class='btn btn-default'>Set BG Color</a>
+          <a id='set_projector_bg_color' class='btn btn-default btn-sm'>Set BG Color</a>
         </div>
       </div>
 
       <div class='row panel'>
-        <div class='col-sm-5'>
+        <div class='col-sm-4'>
           <label>Background Opacity</label>
         </div>
-        <div class='col-sm-3'>
+        <div class='col-sm-4'>
           <input type="text" id='projector_opacity' size='1' />%
         </div>
         <div class='col-sm-3'>
-          <a id='set_projector_opacity' class='btn btn-default'>Set Opacity</a>
-        </div>
-      </div>
-
-      <div class='row panel'>
-        <div class='col-sm-5'>
-          <label>Font</label>
-        </div>
-        <div class='col-sm-3'>
-          <input type="text" id='set_font_family' size='8' />
-          <br />
-          <br />
-          <input type="text" id='set_font_size' size='2' />
-        </div>
-        <div class='col-sm-3'>
-          <a id='set_font_btn' class='btn btn-default'>Set Font</a>
-          <br />
-          <br />
-          <a id='set_font_size_btn' class='btn btn-default'>Set Font Size</a>
-
+          <a id='set_projector_opacity' class='btn btn-default btn-sm'>Set Opacity</a>
         </div>
       </div>
 
@@ -124,30 +152,36 @@
 
   <div class='row'>
     <p>
-      <strong>Media Resources:</strong>
-      <div class='container-fluid panel'>
-        <a class='clear-background btn btn-default' >Clear Background</a><br />
-        <p><br /></p>
-        <% @programme.resources.in_groups_of(4).each do |resourceRow| %>
-        <% resourceRow.select! {|x| !x.nil?} %>
-        <div class="row">
-          <% resourceRow.each do |resource| %>
-          <div class='col-sm-2'>
-            <a class='media-chooser' rel='<%= resource.id %>' >
-              <% if resource.resourceType == 'video/mp4' %>
-              <video width="128" rel='<%= resource.id %>' >
-                <source src="<%= resource.location %>" type="video/mp4">
-                    Your browser does not support the video tag.
-              </video>
-              <% else %>
-              <img src="<%= resource.location %>" rel='<%= resource.id %>' />
-              <% end %>
-              <br />
-              <%= resource.title %></a>
+      <div class='container-fluid'>
+        <div class='panel panel-default'>
+          <div class='panel-heading'>
+            <strong>Media Resources:</strong>
           </div>
-          <% end %>
+          <div class='panel-body'>
+            <a class='clear-background btn btn-default btn-sm' >Clear Background</a><br />
+            <p><br /></p>
+            <% @programme.resources.in_groups_of(4).each do |resourceRow| %>
+            <% resourceRow.select! {|x| !x.nil?} %>
+            <div class="row">
+              <% resourceRow.each do |resource| %>
+              <div class='col-sm-2'>
+                <a class='media-chooser' rel='<%= resource.id %>' >
+                  <% if resource.resourceType == 'video/mp4' %>
+                  <video width="128" rel='<%= resource.id %>' >
+                    <source src="<%= resource.location %>" type="video/mp4">
+                      Your browser does not support the video tag.
+                  </video>
+                  <% else %>
+                  <img src="<%= resource.location %>" rel='<%= resource.id %>' />
+                  <% end %>
+                  <br />
+                  <%= resource.title %></a>
+              </div>
+              <% end %>
+            </div>
+            <% end %>
+          </div>
         </div>
-        <% end %>
       </div>
     <p>
   </div>

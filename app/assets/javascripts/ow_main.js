@@ -1,6 +1,8 @@
 var initComplete = false;
-var fontColor = '#ffffff';
-var vidBGColor = '#3344ff';
+var defaultFontSize = '16';
+var defaultFont = "Arial";
+var fontColor = '#000000';
+var vidBGColor = '#bbddff';
 var myNewWindow;
 var currentSlide;
 var lyricElement;
@@ -213,14 +215,17 @@ function change_content(content_element)
     setBGColor();
 }
 
-function blackScreen()
+function blankScreen()
 {
     if(myNewWindow != undefined) {
         lyricElement.innerHTML = "";
         liveViewPort.innerHTML = "";
-        videoElement.pause();
-        videoElement.style.display = "none";
+        if(videoElement != undefined) {
+            videoElement.pause();
+            videoElement.style.display = "none";
+        }
     }
+    $('#clone_lyric_block').html('');
 }
 
 function setFontColor()
@@ -239,26 +244,21 @@ function setBGColor()
     $('#cloneWindowBody').css('background-color', vidBGColor);
 }
 
-var minicolorsSettings = {
-    defaults: {
-        animationSpeed: 50,
-        animationEasing: 'swing',
-        change: null,
-        changeDelay: 0,
-        control: 'hue',
-        dataUris: true,
-        defaultValue: '',
-        hide: null,
-        hideSpeed: 100,
-        inline: false,
-        letterCase: 'lowercase',
-        opacity: false,
-        position: 'bottom left',
-        show: null,
-        showSpeed: 100,
-        theme: 'bootstrap'
+function setLiveFontSize(fontSize) {
+    $('#clone_lyric_block p').css('font-size', Math.ceil( fontSize ));
+    if(myNewWindow != null) {
+        $(lyricElement)
+            .css('font-size', Math.ceil( fontSize * 2.5 ));
     }
-};
+}
+
+function setLiveFont(fontName) {
+    $('#clone_lyric_block p').css('font-family', fontName);
+    if(myNewWindow != null) {
+        $(lyricElement)
+            .css('font-family', fontName);
+    }
+}
 
 function initElements()
 {
@@ -282,12 +282,27 @@ function initElements()
         closeProjector();
     });
 
-    $('#goToBlack').on('click', function() {
-        blackScreen();
+    $('#goToBlank').on('click', function() {
+        blankScreen();
     });
 
-    $('input#font_color').minicolors(minicolorsSettings);
-    $('input#projector_bg_color').minicolors(minicolorsSettings);
+    $('#fontColorPicker').wColorPicker({
+        mode: 'click',
+        color: fontColor,
+        onSelect: function(color){
+            $("input#font_color").val(color);
+            $('#fontColorPicker').css('background', color).val(color);
+        }
+    });
+
+    $('#bgPicker').wColorPicker({
+        mode: 'click',
+        color: vidBGColor,
+        onSelect: function(color){
+            $("input#projector_bg_color").val(color);
+            $('#bgPicker').css('background', color).val(color);
+        }
+    });
 
     $('#set_projector_font_color').on('click', function() {
         fontColor = $('#font_color').val();
@@ -319,6 +334,22 @@ function initElements()
         bgType = '';
         bgUrl = '';
         setMediaBackground();
+    });
+
+    $('#set_font_btn').on('click', function() {
+        setLiveFont($('#set_font_family').val());
+    });
+    $('#set_font_family').val(defaultFont);
+
+    $('#set_font_size_btn').on('click', function() {
+        setLiveFontSize($('#set_font_size').val());
+    });
+    $('#set_font_size').val( defaultFontSize );
+
+    $('#set_font_defaults').on('click', function() {
+        setLiveFontSize(defaultFontSize);
+        setLiveFont(defaultFont);
+        $('#set_font_family').val(defaultFont);
     });
 
     liveViewPort = $('#clone_lyric_block');
