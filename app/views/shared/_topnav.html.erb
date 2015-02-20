@@ -32,8 +32,8 @@
               </li>
               <% end %>
             </ul>
-            <div class='floatright'>
 
+            <div class='col-sm-4 pull-right'>
               <% if user_signed_in? %>
               Logged in as <strong>
                 <%= current_user.email %>
@@ -43,7 +43,8 @@
               <%= link_to "Sign up", new_user_registration_path, :class => "btn btn-default" %>
               <%= link_to "Sign in", new_user_session_path, :class => "btn btn-default" %>
               <% end %>
-            </div>
+            </div> <!-- /auth panel -->
+
           </div>
         </div>
     </div>
