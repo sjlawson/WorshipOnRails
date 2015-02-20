@@ -47,6 +47,11 @@ function setMediaBackground()
             vidContainer.appendChild(videoElement);
         }
         /* ToDo: generate video thumb */
+        $('#cloneWinVidContainer')
+            .append("<video id='clone_proj_video_background' muted='muted' volume='0'></video>");
+        $('#clone_proj_video_background')
+            .append("<source id='clone-video-source-player'  type='" + bgType + "' src='" + bgUrl  + "' />" );
+
         break;
         case 'jpg':
         case 'gif':
@@ -56,8 +61,9 @@ function setMediaBackground()
         if(myNewWindow != null) {
 
             videoElement = myNewWindow.document.getElementById("proj_video_background");
-            if(videoElement != undefined) {
-                videoElement.parentNode.removeChild(videoElement);
+            // if(videoElement != undefined) {
+            if($(videoElement)) {
+                $(videoElement).remove(); // .parentNode.removeChild(videoElement);
             }
 
             $(myNewWindow.document.getElementById("vidContainer")).css('background-image', 'url(' + bgUrl + ')')
@@ -65,6 +71,11 @@ function setMediaBackground()
                 .css('background-repeat','no-repeat')
                 .css('background-origin','border-box');
         }
+
+        if($('#clone_proj_video_background')) {
+            $('#clone_proj_video_background').remove();
+        }
+
         $('#cloneWinVidContainer').css('background-image', 'url(' + bgUrl + ')')
             .css('background-size', '300px 200px')
             .css('background-repeat','no-repeat');
@@ -79,6 +90,10 @@ function setMediaBackground()
             $(myNewWindow.document.getElementById("vidContainer")).css('background-image', 'none');
             $(myNewWindow.document.body).css('background-image', 'none');
         }
+        if($('#clone_proj_video_background')) {
+            $('#clone_proj_video_background').remove();
+        }
+
         $('#cloneWinVidContainer').css('background-image', 'none');
     }
 }
@@ -279,14 +294,22 @@ function initElements()
         setFontColor();
     });
 
+    $('#font_color').val(fontColor);
+    setFontColor();
+
     $('#set_projector_bg_color').on('click', function() {
         vidBGColor = $('#projector_bg_color').val();
         setBGColor();
     });
 
+    $('#projector_bg_color').val(vidBGColor);
+    setBGColor();
+
     $('#set_projector_opacity').on('click', function() {
         setBGOpacity($('#projector_opacity').val());
     });
+
+    $('#projector_opacity').val($('#cloneWinVidContainer').css('opacity') * 100);
 
     $('.media-chooser').on('click', function(event) {
         setBackground($(event.target).attr('rel'));
