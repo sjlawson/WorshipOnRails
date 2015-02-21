@@ -1,6 +1,8 @@
 var initComplete = false;
 var defaultFontSize = '16';
 var defaultFont = "Arial";
+var currFont = defaultFont;
+var currFontSize = defaultFontSize;
 var fontColor = '#000000';
 var vidBGColor = '#bbddff';
 var myNewWindow;
@@ -211,6 +213,8 @@ function change_content(content_element)
     }
     this.currentSlide = content;
     $(content_element).css('backgroundColor','#A2D3A2');
+    setLiveFont();
+    setLiveFontSize();
     setFontColor();
     setBGColor();
 }
@@ -244,19 +248,21 @@ function setBGColor()
     $('#cloneWindowBody').css('background-color', vidBGColor);
 }
 
-function setLiveFontSize(fontSize) {
-    $('#clone_lyric_block p').css('font-size', Math.ceil( fontSize ));
+var cloneLyricElement = document.getElementById('clone_lyric_block');
+
+function setLiveFontSize() {
+    $('#clone_lyric_block .lyric-line').css('font-size', Math.ceil( currFontSize ));
     if(myNewWindow != null) {
         $(lyricElement)
-            .css('font-size', Math.ceil( fontSize * 2.5 ));
+            .css('font-size', Math.ceil( currFontSize * 2.5 ));
     }
 }
 
-function setLiveFont(fontName) {
-    $('#clone_lyric_block p').css('font-family', fontName);
+function setLiveFont() {
+    $('#clone_lyric_block .lyric-line').css('font-family', currFont);
     if(myNewWindow != null) {
         $(lyricElement)
-            .css('font-family', fontName);
+            .css('font-family', currFont);
     }
 }
 
@@ -337,19 +343,24 @@ function initElements()
     });
 
     $('#set_font_btn').on('click', function() {
-        setLiveFont($('#set_font_family').val());
+        currFont = $('#set_font_family').val();
+        setLiveFont();
     });
     $('#set_font_family').val(defaultFont);
 
     $('#set_font_size_btn').on('click', function() {
-        setLiveFontSize($('#set_font_size').val());
+        currFontSize = $('#set_font_size').val();
+        setLiveFontSize();
     });
     $('#set_font_size').val( defaultFontSize );
 
     $('#set_font_defaults').on('click', function() {
-        setLiveFontSize(defaultFontSize);
-        setLiveFont(defaultFont);
+        currFontSize = defaultFontSize;
+        currFont = defaultFont;
+        setLiveFontSize();
+        setLiveFont();
         $('#set_font_family').val(defaultFont);
+        $('#set_font_size').val(defaultFontSize);
     });
 
     liveViewPort = $('#clone_lyric_block');
@@ -358,4 +369,5 @@ function initElements()
 }
 
 $(document).ready(function() { initElements();});
-$(document).on('page:load', function() { initElements();}); // rails doesn't always trigger $(document).ready
+$(document).on('page:load', function() { initElements();});
+// rails doesn't always trigger $(document).ready
