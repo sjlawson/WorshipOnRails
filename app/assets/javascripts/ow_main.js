@@ -123,7 +123,7 @@ function loadProjectorWindow()
         myNewWindow.document.body.style.backgroundColor="black";
 
         var csslink = document.createElement("link");
-        csslink.href = "http://" + hostWithPort + "/assets/vidwinstyles.css";
+        csslink.href = hostWithPort + "/assets/vidwinstyles.css";
         csslink.type = "text/css";
         csslink.rel = "stylesheet";
         myNewWindow.document.getElementsByTagName("head")[0].appendChild(csslink);

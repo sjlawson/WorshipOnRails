@@ -1,6 +1,9 @@
 <script type='text/javascript'>
-  hostWithPort = "<%= request.host_with_port() %>";
 </script>
+<%= javascript_tag do %>
+<%  protocol = Rails.env == 'production' ? 'https' : 'http' %>
+  hostWithPort = "<%= protocol + '://' + request.host_with_port() %>";
+<% end %>
 
 <div class='container'>
   <div class='row'>
