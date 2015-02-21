@@ -1,7 +1,5 @@
-<script type='text/javascript'>
-</script>
 <%= javascript_tag do %>
-<%  protocol = Rails.env == 'production' ? 'https' : 'http' %>
+  <% protocol = Rails.env == 'production' ? 'https' : 'http' %>
   hostWithPort = "<%= protocol + '://' + request.host_with_port() %>";
 <% end %>
 
