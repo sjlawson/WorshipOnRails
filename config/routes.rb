@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+
+  devise_for :admins
+  get 'admin/home'
+
+  get 'admin/new_user' => 'admin#new_user', as: :admin_new_user
+  post 'admin/create_user' => 'admin#create_user', as: :admin_create_user
+
   get 'home/index'
   root 'home#index'
 
@@ -10,8 +17,19 @@ Rails.application.routes.draw do
 
   resources :songs
 
-  get 'users/sign_up' => redirect('/404.html')
-  devise_for :users
+  # get 'users/sign_up' => redirect('/404.html')
+  devise_for :users, except: :create
+
+  resources :users, except: :create
+
+  # get 'users/new'
+  # get 'users/create'
+  # get 'users/update'
+  # get 'users/edit'
+  # get 'users/destroy'
+  # get 'users/show'
+  # get 'users/index'
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
