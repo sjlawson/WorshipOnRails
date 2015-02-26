@@ -37,8 +37,10 @@
               <% if user_signed_in? %>
               Logged in as <strong>
                 <%= current_user.email %>
-              </strong>.
-              <%= link_to "Sign out", destroy_user_session_path, method: :delete, :class => "btn btn-default" %>
+              </strong><br />
+              <%= link_to "Sign out", destroy_user_session_path, method: :delete, :class => "btn btn-default btn-sm pull-right" %>
+              <%= link_to "Account", edit_user_path(current_user),
+                  {:class => 'btn btn-default btn-sm pull-right'} %>
               <% else %>
               <%=
 # link_to "Sign up", new_user_registration_path, :class => "btn btn-default"
