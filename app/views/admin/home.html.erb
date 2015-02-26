@@ -3,8 +3,12 @@
 <h1>Admin Dashboard</h1>
 
 <ul>
-  <li><%= link_to 'Users', users_path, {:class => 'btn btn-default btn-sm'} %></li>
-  <li><%= link_to "Create User", admin_new_user_path %></li>
+  <li><%= link_to 'Users', users_path,
+          {:class => 'btn btn-default btn-sm'} %></li>
+  <li><%= link_to "Create User", admin_new_user_path,
+          {:class => 'btn btn-default btn-sm'} %></li>
+  <li><%= link_to "Admin Account", admin_edit_path,
+          {:class => 'btn btn-default btn-sm'} %></li>
 </ul>
 
 </div>

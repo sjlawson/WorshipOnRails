@@ -5,7 +5,7 @@ class ScripturesController < ApplicationController
   # GET /scriptures
   # GET /scriptures.json
   def index
-    @scriptures = Scripture.all
+    @scriptures = Scripture.where(:user_id => current_user.id)
   end
 
   # GET /scriptures/1

@@ -5,7 +5,7 @@ class ResourcesController < ApplicationController
   # GET /resources
   # GET /resources.json
   def index
-    @resources = Resource.all
+    @resources = Resource.where(:user_id => current_user.id)
   end
 
   # GET /resources/1
