@@ -1,0 +1,27 @@
+Mon, 02 Mar 2015 17:38:00 -0500
+README.rdoc	Thu, 05 Feb 2015 22:01:33 -0500
+app/controllers/admin_controller.rb	Thu, 26 Feb 2015 01:07:16 -0500
+app/controllers/application_controller.rb	Fri, 06 Feb 2015 18:36:57 -0500
+app/controllers/home_controller.rb	Thu, 26 Feb 2015 00:40:51 -0500
+app/controllers/programmes_controller.rb	Thu, 26 Feb 2015 01:07:16 -0500
+app/controllers/resources_controller.rb	Thu, 26 Feb 2015 01:07:16 -0500
+app/controllers/scriptures_controller.rb	Thu, 26 Feb 2015 01:07:16 -0500
+app/controllers/songs_controller.rb	Thu, 26 Feb 2015 01:07:16 -0500
+app/controllers/users_controller.rb	Thu, 26 Feb 2015 01:07:16 -0500
+app/helpers/admin_helper.rb	Thu, 26 Feb 2015 01:07:16 -0500
+app/helpers/application_helper.rb	Thu, 05 Feb 2015 22:01:33 -0500
+app/helpers/home_helper.rb	Thu, 05 Feb 2015 23:35:41 -0500
+app/helpers/programmes_helper.rb	Thu, 05 Feb 2015 22:01:33 -0500
+app/helpers/resources_helper.rb	Thu, 05 Feb 2015 22:01:33 -0500
+app/helpers/scriptures_helper.rb	Thu, 05 Feb 2015 22:01:33 -0500
+app/helpers/songs_helper.rb	Thu, 05 Feb 2015 22:01:33 -0500
+app/helpers/users_helper.rb	Thu, 26 Feb 2015 01:07:16 -0500
+app/models/admin.rb	Thu, 26 Feb 2015 01:07:16 -0500
+app/models/programme.rb	Mon, 09 Feb 2015 21:31:25 -0500
+app/models/programmes_resource.rb	Mon, 09 Feb 2015 21:31:25 -0500
+app/models/programmes_scripture.rb	Mon, 09 Feb 2015 21:31:25 -0500
+app/models/programmes_song.rb	Mon, 09 Feb 2015 21:31:25 -0500
+app/models/resource.rb	Thu, 05 Feb 2015 22:01:33 -0500
+app/models/scripture.rb	Thu, 05 Feb 2015 22:01:33 -0500
+app/models/song.rb	Mon, 09 Feb 2015 21:31:25 -0500
+app/models/user.rb	Thu, 26 Feb 2015 01:07:16 -0500
