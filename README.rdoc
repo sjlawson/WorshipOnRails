@@ -42,8 +42,11 @@ Please consult {Issue tracking document}[https://docs.google.com/document/d/1dBX
 === Then merge staging to master
 
 <tt>$ git checkout master</tt>  
+
 <tt>$ git pull origin master</tt>  
+
 <tt>$ git merge --no-ff staging</tt>  
+
 <tt>$ git push origin master</tt>
 
 === Deploy to host (Heroku)
