@@ -24,33 +24,40 @@ Please consult {Issue tracking document}[https://docs.google.com/document/d/1dBX
 
 # place custom seed files in /db/seeds
 
-<tt>$ rake db:seed:seed_file_name </tt> # Name of the file EXCLUDING the .rb extension
+<tt>$ rake db:seed:seed_file_name </tt> \# Name of the file EXCLUDING the .rb extension
 
-* Deployment instructions:
+---
+== Deployment instructions:
 
-  Merge local feature branch into staging
+=== Merge local feature branch into staging
 
-  <tt>$ git checkout staging</tt>
-  <tt>$ git pull origin staging</tt>
-  <tt>$ git merge --no-ff unshared-local-branch </tt>
-  <tt>$ git push origin staging</tt>
+<tt>$ git checkout staging</tt>
 
-#  Then merge staging to master
+<tt>$ git pull origin staging</tt>
 
-  <tt>$ git checkout master</tt>
-  <tt>$ git pull origin master</tt>
-  <tt>$ git merge --no-ff staging</tt>
-  <tt>$ git push origin master</tt>
+<tt>$ git merge --no-ff unshared-local-branch </tt>
 
-# Deploy to host (Heroku)
+<tt>$ git push origin staging</tt>
 
-<tt>$ heroku login
+=== Then merge staging to master
+
+<tt>$ git checkout master</tt>
+<tt>$ git pull origin master</tt>
+<tt>$ git merge --no-ff staging</tt>
+<tt>$ git push origin master</tt>
+
+=== Deploy to host (Heroku)
+
+<tt>$ heroku login</tt>
 <tt>$ git push heroku master</tt>
-#  after --
+
+---
+after push
 
 <tt>$ heroku run rake db:migrate</tt>
 
-#  And if seeds are needed
-  <tt>$ heroku run rakd db:seed:seedfile-name-without-rb-extension</tt>
+And if seeds are needed
+
+<tt>$ heroku run rakd db:seed:seedfile-name-without-rb-extension</tt>
 
 # We're nearing beta-stage in which invitations will be sent to select organisations for free use and testing.
