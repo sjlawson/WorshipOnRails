@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150224193011) do
+ActiveRecord::Schema.define(version: 20150304193915) do
 
   create_table "admins", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -84,8 +84,14 @@ ActiveRecord::Schema.define(version: 20150224193011) do
     t.text     "content"
     t.string   "author"
     t.integer  "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.string   "font_size"
+    t.string   "font_family"
+    t.string   "text_color"
+    t.string   "bg_color"
+    t.integer  "bg_opacity"
+    t.integer  "resource_id"
   end
 
   add_index "scriptures", ["user_id"], name: "index_scriptures_on_user_id"
@@ -96,8 +102,14 @@ ActiveRecord::Schema.define(version: 20150224193011) do
     t.string   "license"
     t.string   "author"
     t.integer  "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.string   "font_size"
+    t.string   "font_family"
+    t.string   "text_color"
+    t.string   "bg_color"
+    t.integer  "bg_opacity"
+    t.integer  "resource_id"
   end
 
   add_index "songs", ["user_id"], name: "index_songs_on_user_id"

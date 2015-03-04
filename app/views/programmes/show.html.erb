@@ -1,3 +1,5 @@
+<%= javascript_include_tag params[:controller] %>
+
 <%= javascript_tag do %>
   <% protocol = Rails.env == 'production' ? 'https' : 'http' %>
   hostWithPort = "<%= protocol + '://' + request.host_with_port() %>";
