@@ -11598,6 +11598,14 @@ return jQuery;
 
 
 }).call(this);
+(function() {
+
+
+}).call(this);
+(function() {
+
+
+}).call(this);
 var initComplete = false;
 var defaultFontSize = '16';
 var defaultFont = "Arial";
@@ -11613,6 +11621,25 @@ var videoElement;
 var bgUrl;
 var bgType;
 var hostWithPort;
+
+var currentContentObject = new contentObject("",null,null,defaultFontSize,defaultFont,fontColor,vidBGColor,100);
+
+function contentObject(contentType, contentId, bgResourceId, fontSize, fontFamily, textColor, bgColor, bgOpacity)
+{
+    this.contentType = contentType;
+    this.contentId = contentId;
+    this.bgResourceId = bgResourceId;
+    this.fontSize = fontSize;
+    this.fontFamily = fontFamily;
+    this.textColor = textColor;
+    this.bgColor = bgColor;
+    this.bgOpacity = bgOpacity;
+}
+
+function saveCurrentContentObject()
+{
+    alert(JSON.stringify(currentContentObject));
+}
 
 function closeProjector()
 {
@@ -11712,6 +11739,7 @@ function setBGOpacity(opacityPercent)
     $('#cloneWinVidContainer').css('opacity', opacity);
     opacityPercent = opacity * 100;
     $('#projector_opacity').val(opacityPercent);
+
 }
 
 function loadProjectorWindow()
@@ -11723,7 +11751,7 @@ function loadProjectorWindow()
         myNewWindow.document.body.style.backgroundColor="black";
 
         var csslink = document.createElement("link");
-        csslink.href = "http://" + hostWithPort + "/assets/vidwinstyles.css";
+        csslink.href = hostWithPort + "/assets/vidwinstyles.css";
         csslink.type = "text/css";
         csslink.rel = "stylesheet";
         myNewWindow.document.getElementsByTagName("head")[0].appendChild(csslink);
@@ -11760,6 +11788,9 @@ function setBackground(resourceId)
         bgType = resourceObj.resourceType;
         setMediaBackground();
     } );
+
+    currentContentObject.bgResourceId = resourceId;
+    saveCurrentContentObject();
 }
 
 function loadContentItem(id, type)
@@ -11782,6 +11813,8 @@ function loadContentItem(id, type)
     $("#slides div:nth-child(1)").css("backgroundColor","#A2D3A2");
     setFontColor();
     setBGColor();
+    currentContentObject.contentType = type;
+    currentContentObject.contentId = id;
 }
 
 function change_content(content_element)
@@ -11811,6 +11844,7 @@ function change_content(content_element)
         if(childSlide.nodeType == 1)
             childSlide.style.backgroundColor="white";
     }
+
     this.currentSlide = content;
     $(content_element).css('backgroundColor','#A2D3A2');
     setLiveFont();
@@ -11829,6 +11863,7 @@ function blankScreen()
             videoElement.style.display = "none";
         }
     }
+
     $('#clone_lyric_block').html('');
 }
 
@@ -11837,7 +11872,10 @@ function setFontColor()
     if(myNewWindow != null) {
         $(lyricElement).css('color', fontColor );
     }
+
     $('#clone_lyric_block .lyric-line').css('color', fontColor);
+    currentContentObject.textColor = fontColor;
+    saveCurrentContentObject();
 }
 
 function setBGColor()
@@ -11845,7 +11883,10 @@ function setBGColor()
     if(myNewWindow != null) {
         $(myNewWindow.document.body).css('background-color', vidBGColor );
     }
+
     $('#cloneWindowBody').css('background-color', vidBGColor);
+    currentContentObject.bgColor = vidBGColor;
+    saveCurrentContentObject();
 }
 
 var cloneLyricElement = document.getElementById('clone_lyric_block');
@@ -11856,6 +11897,9 @@ function setLiveFontSize() {
         $(lyricElement)
             .css('font-size', Math.ceil( currFontSize * 2.5 ));
     }
+
+    currentContentObject.textColor = fontColor;
+    saveCurrentContentObject();
 }
 
 function setLiveFont() {
@@ -11864,10 +11908,14 @@ function setLiveFont() {
         $(lyricElement)
             .css('font-family', currFont);
     }
+
+    currentContentObject.fontFamily = currFont;
+    saveCurrentContentObject();
 }
 
 function initElements()
 {
+
     $('.slide_content').on('click', function(event) {
         change_content(event.target);
     });
@@ -11928,6 +11976,8 @@ function initElements()
 
     $('#set_projector_opacity').on('click', function() {
         setBGOpacity($('#projector_opacity').val());
+        currentContentObject.bgOpacity = $('#projector_opacity').val();
+        saveCurrentContentObject();
     });
 
     $('#projector_opacity').val($('#cloneWinVidContainer').css('opacity') * 100);

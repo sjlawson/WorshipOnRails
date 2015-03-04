@@ -14,6 +14,25 @@ var bgUrl;
 var bgType;
 var hostWithPort;
 
+var currentContentObject = new contentObject("",null,null,defaultFontSize,defaultFont,fontColor,vidBGColor,100);
+
+function contentObject(contentType, contentId, bgResourceId, fontSize, fontFamily, textColor, bgColor, bgOpacity)
+{
+    this.contentType = contentType;
+    this.contentId = contentId;
+    this.bgResourceId = bgResourceId;
+    this.fontSize = fontSize;
+    this.fontFamily = fontFamily;
+    this.textColor = textColor;
+    this.bgColor = bgColor;
+    this.bgOpacity = bgOpacity;
+}
+
+function saveCurrentContentObject()
+{
+    alert(JSON.stringify(currentContentObject));
+}
+
 function closeProjector()
 {
     myNewWindow.close();
@@ -153,17 +172,19 @@ function loadProjectorWindow()
     }
 }
 
-function setBackground(resourceId)
+function setBackground()
 {
-    $.get("/resources/" + resourceId + ".json", function( resourceObj) {
+    $.get("/resources/" + currentContentObject.bgResourceId + ".json", function( resourceObj) {
         bgUrl = resourceObj.location;
         bgType = resourceObj.resourceType;
         setMediaBackground();
     } );
 }
 
-function loadContentItem(id, type)
+function loadContentItem()
 {
+    var type = currentContentObject.contentType;
+    var id = currentContentObject.contentId;
     var slideData;
     $.get("/" + type + "/" + id + ".json", function( data ) {
         var slideContent = data.content.replace(/\[(.*?)\]/g,
@@ -180,8 +201,6 @@ function loadContentItem(id, type)
     });
 
     $("#slides div:nth-child(1)").css("backgroundColor","#A2D3A2");
-    setFontColor();
-    setBGColor();
 }
 
 function change_content(content_element)
@@ -211,6 +230,7 @@ function change_content(content_element)
         if(childSlide.nodeType == 1)
             childSlide.style.backgroundColor="white";
     }
+
     this.currentSlide = content;
     $(content_element).css('backgroundColor','#A2D3A2');
     setLiveFont();
@@ -229,6 +249,7 @@ function blankScreen()
             videoElement.style.display = "none";
         }
     }
+
     $('#clone_lyric_block').html('');
 }
 
@@ -237,6 +258,7 @@ function setFontColor()
     if(myNewWindow != null) {
         $(lyricElement).css('color', fontColor );
     }
+
     $('#clone_lyric_block .lyric-line').css('color', fontColor);
 }
 
@@ -245,6 +267,7 @@ function setBGColor()
     if(myNewWindow != null) {
         $(myNewWindow.document.body).css('background-color', vidBGColor );
     }
+
     $('#cloneWindowBody').css('background-color', vidBGColor);
 }
 
@@ -268,16 +291,27 @@ function setLiveFont() {
 
 function initElements()
 {
+
     $('.slide_content').on('click', function(event) {
         change_content(event.target);
     });
 
     $('.song_scheduler').on('click', function(event) {
-        loadContentItem($(event.target).attr('rel'), 'songs');
+        currentContentObject.contentType = 'songs';
+        currentContentObject.contentId = $(event.target).attr('rel');
+        loadContentItem();
+        setFontColor();
+        setBGColor();
+        saveCurrentContentObject();
     });
 
     $('.scripture_scheduler').on('click', function(event) {
-        loadContentItem($(event.target).attr('rel'), 'scriptures');
+        currentContentObject.contentType = 'scriptures';
+        currentContentObject.contentId = $(event.target).attr('rel');
+        loadContentItem();
+        saveCurrentContentObject();
+        setFontColor();
+        setBGColor();
     });
 
     $('#loadProjectorWindow').on('click', function() {
@@ -312,6 +346,8 @@ function initElements()
 
     $('#set_projector_font_color').on('click', function() {
         fontColor = $('#font_color').val();
+        currentContentObject.textColor = fontColor;
+        saveCurrentContentObject();
         setFontColor();
     });
 
@@ -321,6 +357,8 @@ function initElements()
     $('#set_projector_bg_color').on('click', function() {
         vidBGColor = $('#projector_bg_color').val();
         setBGColor();
+        currentContentObject.bgColor = vidBGColor;
+        saveCurrentContentObject();
     });
 
     $('#projector_bg_color').val(vidBGColor);
@@ -328,12 +366,16 @@ function initElements()
 
     $('#set_projector_opacity').on('click', function() {
         setBGOpacity($('#projector_opacity').val());
+        currentContentObject.bgOpacity = $('#projector_opacity').val();
+        saveCurrentContentObject();
     });
 
     $('#projector_opacity').val($('#cloneWinVidContainer').css('opacity') * 100);
 
     $('.media-chooser').on('click', function(event) {
-        setBackground($(event.target).attr('rel'));
+        currentContentObject.bgResourceId = $(event.target).attr('rel');
+        setBackground();
+        saveCurrentContentObject();
     });
 
     $('.clear-background').on('click', function(event) {
@@ -345,12 +387,16 @@ function initElements()
     $('#set_font_btn').on('click', function() {
         currFont = $('#set_font_family').val();
         setLiveFont();
+        currentContentObject.fontFamily = currFont;
+        saveCurrentContentObject();
     });
     $('#set_font_family').val(defaultFont);
 
     $('#set_font_size_btn').on('click', function() {
         currFontSize = $('#set_font_size').val();
         setLiveFontSize();
+        currentContentObject.fontSize = currFontSize;
+        saveCurrentContentObject();
     });
     $('#set_font_size').val( defaultFontSize );
 
