@@ -439,3 +439,4 @@ function initElements()
 $(document).ready(function() { initElements();});
 $(document).on('page:load', function() { initElements();});
 // rails doesn't always trigger $(document).ready
+;
