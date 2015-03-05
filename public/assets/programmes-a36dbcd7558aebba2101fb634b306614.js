@@ -46,11 +46,11 @@ function saveCurrentContentObject()
         data: JSON.stringify(patchObject),
         contentType: 'application/json',
         dataType: 'json',
-        success: function() {
-            $(".notice")[0].html( currentContentObject.contentType + ' property saved: ');
+        success: function(msg) {
+            $(".notice").append( currentContentObject.contentType + ' property saved: ' + msg);
         },
-        failure: function() {
-            $(".alert")[0].html(currentContentObject.contentType + ' property save error: ');
+        failure: function(msg) {
+            $(".alert").append(currentContentObject.contentType + ' property save error: ' + msg);
         }
     });
 
@@ -325,13 +325,14 @@ function initElements()
         loadContentItem();
         setFontColor();
         setBGColor();
-        // saveCurrentContentObject();
+        saveCurrentContentObject();
     });
 
     $('.scripture_scheduler').on('click', function(event) {
         currentContentObject.contentType = 'scriptures';
         currentContentObject.contentId = $(event.target).attr('rel');
         loadContentItem();
+        saveCurrentContentObject();
         setFontColor();
         setBGColor();
     });
@@ -439,3 +440,4 @@ function initElements()
 $(document).ready(function() { initElements();});
 $(document).on('page:load', function() { initElements();});
 // rails doesn't always trigger $(document).ready
+;
