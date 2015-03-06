@@ -70,6 +70,17 @@ class ScripturesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def scripture_params
-      params.require(:scripture).permit(:title, :content, :author, :user_id)
+      params.require(:scripture).permit(
+                                        :title,
+                                        :content,
+                                        :author,
+                                        :user_id,
+                                        :font_size,
+                                        :font_family,
+                                        :text_color,
+                                        :bg_color,
+                                        :bg_opacity,
+                                        :resource_id
+                                        )
     end
 end
