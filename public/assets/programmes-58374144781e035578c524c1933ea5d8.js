@@ -1,10 +1,10 @@
 var initComplete = false;
+// set defaults
 var defaultFontSize = '16';
 var defaultFont = "Arial";
-var currFont = defaultFont;
-var currFontSize = defaultFontSize;
-var fontColor = '#000000';
-var vidBGColor = '#bbddff';
+var fontColor = '#FFFFFF';
+var vidBGColor = '#000000';
+
 var myNewWindow;
 var currentSlide;
 var lyricElement;
@@ -195,16 +195,10 @@ function loadProjectorWindow()
         var vidContainer = myNewWindow.document.createElement("div");
         vidContainer.setAttribute("id","vidContainer");
 
-        // vidContainer.appendChild(lyric_block);
-
-
-        // vidContainer.appendChild(videoElement);
         myNewWindow.document.body.appendChild(vidContainer);
         myNewWindow.document.body.appendChild(lyric_block_container);
 
         lyricElement = myNewWindow.document.getElementById("proj_content_block");
-        setBGColor();
-        setFontColor();
     }
 }
 
@@ -231,27 +225,34 @@ defaultFontSize,defaultFont,fontColor,vidBGColor,100
         currentContentObject.bgOpacity = data.bg_opacity ? data.bg_opacity : 100;
         currentContentObject.bgColor = data.bg_color ? data.bg_color : vidBGColor;
 
-        $('#set_font_family').val(currentContentObject.fontFamily);
-        $('#set_font_size').val(currentContentObject.fontSize);
-        $('#font_color').val(currentContentObject.textColor);
-        $('#projector_bg_color').val(currentContentObject.bgColor);
-        $('#projector_opacity').val(data.bgOpacity);
-
         $( "#slides" ).html( slideContent );
         $('.slide_content').click(function() { change_content(this); });
-
-        setLiveFont();
-        setLiveFontSize();
-        setFontColor();
-        setBGColor();
-        setBGOpacity();
-        setBackground();
-        $("#fontColorPicker div.wColorPicker-button .wColorPicker-button-color").css('background-color', currentContentObject.textColor);
-        $("#bgPicker div.wColorPicker-button .wColorPicker-button-color").css('background-color', currentContentObject.bgColor);
 
     });
 
     $("#slides div:nth-child(1)").css("backgroundColor","#A2D3A2");
+}
+
+function setControlsToCurrentContentObject()
+{
+    $('#set_font_family').val(currentContentObject.fontFamily);
+    $('#set_font_size').val(currentContentObject.fontSize);
+    $('#font_color').val(currentContentObject.textColor);
+    $('#projector_bg_color').val(currentContentObject.bgColor);
+    $('#projector_opacity').val(currentContentObject.bgOpacity);
+
+    $("#fontColorPicker div.wColorPicker-button .wColorPicker-button-color").css('background-color', currentContentObject.textColor);
+    $("#bgPicker div.wColorPicker-button .wColorPicker-button-color").css('background-color', currentContentObject.bgColor);
+}
+
+function setStylesToCurrentContentObject()
+{
+    setLiveFont();
+    setLiveFontSize();
+    setFontColor();
+    setBGColor();
+    setBGOpacity();
+    setBackground();
 }
 
 function change_content(content_element)
@@ -273,6 +274,9 @@ function change_content(content_element)
     }
     $('#clone_lyric_block').html(content);
 
+    setStylesToCurrentContentObject();
+    setControlsToCurrentContentObject();
+
     var slideChildren = document.getElementById("slides").childNodes;
     for (var i = 0; i < slideChildren.length; i++) {
         var childSlide = slideChildren[i];
@@ -284,10 +288,6 @@ function change_content(content_element)
     this.currentSlide = content;
     $(content_element).css('backgroundColor','#A2D3A2');
 
-    setLiveFont();
-    setLiveFontSize();
-    setFontColor();
-    setBGColor();
 }
 
 function blankScreen()
@@ -325,18 +325,18 @@ function setBGColor()
 var cloneLyricElement = document.getElementById('clone_lyric_block');
 
 function setLiveFontSize() {
-    $('#clone_lyric_block .lyric-line').css('font-size', Math.ceil( currFontSize ));
+    $('#clone_lyric_block .lyric-line').css('font-size', Math.ceil( currentContentObject.fontSize ));
     if(myNewWindow != null) {
         $(lyricElement)
-            .css('font-size', Math.ceil( currFontSize * 2.5 ));
+            .css('font-size', Math.ceil( currentContentObject.fontSize * 2.5 ));
     }
 }
 
 function setLiveFont() {
-    $('#clone_lyric_block .lyric-line').css('font-family', currFont);
+    $('#clone_lyric_block .lyric-line').css('font-family', currentContentObject.fontFamily);
     if(myNewWindow != null) {
         $(lyricElement)
-            .css('font-family', currFont);
+            .css('font-family', currentContentObject.fontFamily);
     }
 }
 
@@ -351,17 +351,12 @@ function initElements()
         currentContentObject.contentType = 'songs';
         currentContentObject.contentId = $(event.target).attr('rel');
         loadContentItem();
-        setFontColor();
-        setBGColor();
-        // saveCurrentContentObject();
     });
 
     $('.scripture_scheduler').on('click', function(event) {
         currentContentObject.contentType = 'scriptures';
         currentContentObject.contentId = $(event.target).attr('rel');
         loadContentItem();
-        setFontColor();
-        setBGColor();
     });
 
     $('#loadProjectorWindow').on('click', function() {
@@ -433,24 +428,22 @@ function initElements()
     });
 
     $('#set_font_btn').on('click', function() {
-        currFont = $('#set_font_family').val();
+        currentContentObject.fontFamily = $('#set_font_family').val();
         setLiveFont();
-        currentContentObject.fontFamily = currFont;
         saveCurrentContentObject();
     });
     $('#set_font_family').val(defaultFont);
 
     $('#set_font_size_btn').on('click', function() {
-        currFontSize = $('#set_font_size').val();
+        currentContentObject.fontSize = $('#set_font_size').val();
         setLiveFontSize();
-        currentContentObject.fontSize = currFontSize;
         saveCurrentContentObject();
     });
     $('#set_font_size').val( defaultFontSize );
 
     $('#set_font_defaults').on('click', function() {
-        currFontSize = defaultFontSize;
-        currFont = defaultFont;
+        currentContentObject.fontSize = defaultFontSize;
+        currentContentObject.fontFamily = defaultFont;
         setLiveFontSize();
         setLiveFont();
         $('#set_font_family').val(defaultFont);
