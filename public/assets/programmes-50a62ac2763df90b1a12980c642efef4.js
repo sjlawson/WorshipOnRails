@@ -16,6 +16,11 @@ var hostWithPort;
 
 var currentContentObject = new contentObject("",null,null,defaultFontSize,defaultFont,fontColor,vidBGColor,100);
 
+/**
+ * Object to hold information about content being displayed
+ *
+ * @params contentType, contentId, bgResourceId, fontSize, fontFamily, textColor, bgColor, bgOpacity
+*/
 function contentObject(contentType, contentId, bgResourceId, fontSize, fontFamily, textColor, bgColor, bgOpacity)
 {
     this.contentType = contentType;
@@ -28,6 +33,9 @@ function contentObject(contentType, contentId, bgResourceId, fontSize, fontFamil
     this.bgOpacity = bgOpacity;
 }
 
+/**
+ * make state of contentObject persistent
+ */
 function saveCurrentContentObject()
 {
     var patchObject = {
@@ -55,12 +63,18 @@ function saveCurrentContentObject()
 
 }
 
+/**
+ * Close external window
+ */
 function closeProjector()
 {
     myNewWindow.close();
     myNewWindow = null;
 }
 
+/**
+ * Open external window
+ */
 function initProjectorWindow()
 {
     var NewWindow = window.open("about:blank", '_blank','width=800,height=600');
@@ -68,6 +82,46 @@ function initProjectorWindow()
     return NewWindow;
 }
 
+/**
+ * If window is has not already been launched, open new window and add base elements
+ */
+function loadProjectorWindow()
+{
+    if(myNewWindow == undefined || myNewWindow == null) {
+        myNewWindow = initProjectorWindow();
+        myNewWindow.onbeforeunload = function(){ myNewWindow = null; }
+        myNewWindow.document.body.style.backgroundColor="black";
+
+        var csslink = document.createElement("link");
+        csslink.href = hostWithPort + "/assets/vidwinstyles.css";
+        csslink.type = "text/css";
+        csslink.rel = "stylesheet";
+
+        var lyric_block_container = myNewWindow.document.createElement("div");
+        lyric_block_container.setAttribute("id","proj_content_container");
+
+        var lyric_block = myNewWindow.document.createElement("div");
+        lyric_block.setAttribute("id","proj_content_block");
+        lyric_block.innerHTML = currentSlide != undefined ? currentSlide : '' ;
+
+        lyric_block_container.appendChild(lyric_block);
+
+        var vidContainer = myNewWindow.document.createElement("div");
+        vidContainer.setAttribute("id","vidContainer");
+
+        $(myNewWindow.document).ready(setTimeout(function() {
+            myNewWindow.document.getElementsByTagName("head")[0].appendChild(csslink);
+            myNewWindow.document.body.appendChild(vidContainer);
+            myNewWindow.document.body.appendChild(lyric_block_container);
+            lyricElement = myNewWindow.document.getElementById("proj_content_block");
+        }, 1000) );
+    }
+}
+
+/**
+ * Get resource object for use in background
+ * On success, pass function to setMediaBackground to make it live
+ */
 function setBackground()
 {
     if(currentContentObject.bgResourceId) {
@@ -82,6 +136,9 @@ function setBackground()
     }
 }
 
+/**
+ * Places current background resource on the live window
+ */
 function setMediaBackground()
 {
     switch (bgType) {
@@ -157,6 +214,9 @@ function setMediaBackground()
     }
 }
 
+/**
+ * Set opacity of background media element
+ */
 function setBGOpacity()
 {
     var opacity = currentContentObject.bgOpacity / 100;
@@ -169,39 +229,9 @@ function setBGOpacity()
     $('#projector_opacity').val(currentContentObject.bgOpacity);
 }
 
-function loadProjectorWindow()
-{
-    if(myNewWindow == undefined || myNewWindow == null) {
-
-        myNewWindow = initProjectorWindow();
-        myNewWindow.onbeforeunload = function(){ myNewWindow = null; }
-        myNewWindow.document.body.style.backgroundColor="black";
-
-        var csslink = document.createElement("link");
-        csslink.href = hostWithPort + "/assets/vidwinstyles.css";
-        csslink.type = "text/css";
-        csslink.rel = "stylesheet";
-        myNewWindow.document.getElementsByTagName("head")[0].appendChild(csslink);
-
-        var lyric_block_container = myNewWindow.document.createElement("div");
-        lyric_block_container.setAttribute("id","proj_content_container");
-
-        var lyric_block = myNewWindow.document.createElement("div");
-        lyric_block.setAttribute("id","proj_content_block");
-        lyric_block.innerHTML = currentSlide != undefined ? currentSlide : '' ;
-
-        lyric_block_container.appendChild(lyric_block);
-
-        var vidContainer = myNewWindow.document.createElement("div");
-        vidContainer.setAttribute("id","vidContainer");
-
-        myNewWindow.document.body.appendChild(vidContainer);
-        myNewWindow.document.body.appendChild(lyric_block_container);
-
-        lyricElement = myNewWindow.document.getElementById("proj_content_block");
-    }
-}
-
+/**
+ * When a content item has been selected, load into the live slide-chooser column
+ */
 function loadContentItem()
 {
     var type = currentContentObject.contentType;
@@ -233,6 +263,9 @@ defaultFontSize,defaultFont,fontColor,vidBGColor,100
     $("#slides div:nth-child(1)").css("backgroundColor","#A2D3A2");
 }
 
+/**
+ * After loading new content (song, scripture, video), set persistent style values in controls
+ */
 function setControlsToCurrentContentObject()
 {
     $('#set_font_family').val(currentContentObject.fontFamily);
@@ -245,6 +278,9 @@ function setControlsToCurrentContentObject()
     $("#bgPicker div.wColorPicker-button .wColorPicker-button-color").css('background-color', currentContentObject.bgColor);
 }
 
+/**
+ * Apply current contentObject parameters to live view window and to clone element
+ */
 function setStylesToCurrentContentObject()
 {
     setLiveFont();
@@ -255,6 +291,9 @@ function setStylesToCurrentContentObject()
     setBackground();
 }
 
+/**
+ * When a different slide is selected clicked, move its content to live
+ */
 function change_content(content_element)
 {
     if(content_element.nodeName == 'P') {
@@ -290,6 +329,9 @@ function change_content(content_element)
 
 }
 
+/**
+ * Blank content on live window/clone -- leaves background image.
+ */
 function blankScreen()
 {
     if(myNewWindow != undefined) {
@@ -304,6 +346,9 @@ function blankScreen()
     $('#clone_lyric_block').html('');
 }
 
+/**
+ * Assigns textColor from currentContentObject to text element color in live window and clone element
+ */
 function setFontColor()
 {
     if(myNewWindow != null) {
@@ -313,6 +358,9 @@ function setFontColor()
     $('#clone_lyric_block .lyric-line').css('color', currentContentObject.textColor);
 }
 
+/**
+ * Assigns bgColor from currentContentObject to body element color in live window and clone element background
+ */
 function setBGColor()
 {
     if(myNewWindow != null) {
@@ -322,7 +370,7 @@ function setBGColor()
     $('#cloneWindowBody').css('background-color', currentContentObject.bgColor);
 }
 
-var cloneLyricElement = document.getElementById('clone_lyric_block');
+// var cloneLyricElement = document.getElementById('clone_lyric_block');
 
 function setLiveFontSize() {
     $('#clone_lyric_block .lyric-line').css('font-size', Math.ceil( currentContentObject.fontSize ));
