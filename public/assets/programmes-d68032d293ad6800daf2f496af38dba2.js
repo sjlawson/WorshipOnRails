@@ -172,7 +172,6 @@ function setBGOpacity()
 function loadProjectorWindow()
 {
     if(myNewWindow == undefined || myNewWindow == null) {
-
         myNewWindow = initProjectorWindow();
         myNewWindow.onbeforeunload = function(){ myNewWindow = null; }
         myNewWindow.document.body.style.backgroundColor="black";
@@ -181,7 +180,6 @@ function loadProjectorWindow()
         csslink.href = hostWithPort + "/assets/vidwinstyles.css";
         csslink.type = "text/css";
         csslink.rel = "stylesheet";
-        myNewWindow.document.getElementsByTagName("head")[0].appendChild(csslink);
 
         var lyric_block_container = myNewWindow.document.createElement("div");
         lyric_block_container.setAttribute("id","proj_content_container");
@@ -195,10 +193,12 @@ function loadProjectorWindow()
         var vidContainer = myNewWindow.document.createElement("div");
         vidContainer.setAttribute("id","vidContainer");
 
-        myNewWindow.document.body.appendChild(vidContainer);
-        myNewWindow.document.body.appendChild(lyric_block_container);
-
-        lyricElement = myNewWindow.document.getElementById("proj_content_block");
+        $(myNewWindow.document).ready(setTimeout(function() {
+            myNewWindow.document.getElementsByTagName("head")[0].appendChild(csslink);
+            myNewWindow.document.body.appendChild(vidContainer);
+            myNewWindow.document.body.appendChild(lyric_block_container);
+            lyricElement = myNewWindow.document.getElementById("proj_content_block");
+        }, 1000) );
     }
 }
 
@@ -424,7 +424,9 @@ function initElements()
     $('.clear-background').on('click', function(event) {
         bgType = '';
         bgUrl = '';
+        currentContentObject.bgResourceId = null;
         setMediaBackground();
+        saveCurrentContentObject();
     });
 
     $('#set_font_btn').on('click', function() {

@@ -519,7 +519,8 @@ $(document).ready(function() { // event does not fire when page loads from index
 });
 
 if(!initComplete) {
-    // this event fires when page loads from programmes index link
+    // this event fires when page loads from index link
     $(document).on('page:load', function() { initElements();});
 }
 
+;
