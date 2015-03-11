@@ -195,6 +195,7 @@
   <%= @programme.user.email %>
 </p>
 
-<%= link_to 'Edit', edit_programme_path(@programme) %> |
-<%= link_to 'Back', programmes_path %>
+<%= link_to('Edit', { :action => 'edit', :id => @programme })  %> |
+<%= link_to('Back', { :action => 'index'}) %>
 </div>
+<%# the above notation seems more readable than the magic methods, e.g. edit_programme_path(@programme) %>
