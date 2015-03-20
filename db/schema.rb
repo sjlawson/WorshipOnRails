@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150304193915) do
+ActiveRecord::Schema.define(version: 20150320204928) do
 
   create_table "admins", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -75,6 +75,8 @@ ActiveRecord::Schema.define(version: 20150304193915) do
     t.integer  "user_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.boolean  "featured"
+    t.boolean  "background"
   end
 
   add_index "resources", ["user_id"], name: "index_resources_on_user_id"

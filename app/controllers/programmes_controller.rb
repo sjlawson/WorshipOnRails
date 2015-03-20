@@ -15,7 +15,10 @@ class ProgrammesController < ApplicationController
     @programmeSongs = @programme.programmesSongs.order( :programmeOrder )
     @programmeScriptures = @programme.programmesScriptures.order( :programmeOrder )
 
-    @fontList = Array.new(['American Typewriter', 'Courier New', 'Courier', 'Monaco', 'Arial Rounded MT Bold', 'Helvetica', 'Arial', 'sans-serif', 'Baskerville', 'Georgia', 'Garamond', 'Times New Roman', 'Times', 'serif', 'Book Antiqua', 'Bookman Old Style', 'Brush Script MT', 'Comic Sans', 'Chalkboard', 'Didot', 'Futura', 'Impact', 'Gill Sans', 'Lucida Grande', 'Lucida Sans Unicode', 'Verdana', 'Helvetica Neue', 'Hoefler Text', 'Lucida Grande', 'Marker Felt', 'Myriad', 'Optima', 'Palatino', 'Cochin', 'Goudy Old Style']);
+    @featuredResources =  @programme.resources.select { |resource| resource.featured == true }
+    @backgroundResources = @programme.resources.select { |resource| resource.background == true }
+
+    @fontList = Array.new(['Courier New', 'Courier', 'Monaco', 'Arial Rounded MT Bold', 'Helvetica', 'Arial', 'sans-serif', 'Baskerville', 'Georgia', 'Garamond', 'Times New Roman', 'Times', 'serif', 'Book Antiqua', 'Bookman Old Style', 'Impact', 'Lucida Grande', 'Lucida Sans Unicode', 'Verdana', 'Helvetica Neue', 'Palatino', 'Goudy Old Style']);
 
   end
 

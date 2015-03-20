@@ -166,7 +166,7 @@
           <div class='panel-body'>
             <a class='clear-background btn btn-default btn-sm' >Clear Background</a><br />
             <p><br /></p>
-            <% @programme.resources.in_groups_of(4).each do |resourceRow| %>
+            <% @backgroundResources.in_groups_of(4).each do |resourceRow| %>
             <% resourceRow.select! {|x| !x.nil?} %>
             <div class="row">
               <% resourceRow.each do |resource| %>
@@ -194,6 +194,7 @@
   <strong>User:</strong>
   <%= @programme.user.email %>
 </p>
+
 
 <%= link_to('Edit', { :action => 'edit', :id => @programme })  %> |
 <%= link_to('Back', { :action => 'index'}) %>
