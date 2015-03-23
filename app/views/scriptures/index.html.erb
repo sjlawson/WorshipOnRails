@@ -9,7 +9,7 @@
       <th>Title</th>
       <th>Content</th>
       <th>Author</th>
-      <th>User</th>
+      <!-- <th>User</th> -->
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -20,10 +20,10 @@
         <td><%= scripture.title %></td>
         <td><%= scripture.content[0..64] %></td>
         <td><%= scripture.author %></td>
-        <td><%= scripture.user.email %></td>
-        <td><%= link_to 'Show', scripture %></td>
-        <td><%= link_to 'Edit', edit_scripture_path(scripture) %></td>
-        <td><%= link_to 'Destroy', scripture, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <!-- <td><%# scripture.user.email %></td> -->
+        <td><%= link_to 'Show', scripture, :class => 'btn btn-default btn-sm' %>
+        <%= link_to 'Edit', edit_scripture_path(scripture), :class => 'btn btn-default btn-sm' %>
+        <%= link_to 'Destroy', scripture, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default btn-sm' %></td>
       </tr>
     <% end %>
   </tbody>
@@ -31,5 +31,5 @@
 </div>
 <br>
 
-<%= link_to 'New Scripture', new_scripture_path %>
+<%= link_to 'New Scripture', new_scripture_path, :class => 'btn btn-default btn-sm' %>
 </div>

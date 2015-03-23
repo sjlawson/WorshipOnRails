@@ -17,9 +17,9 @@
         <tr>
           <td><%= programme.title %></td>
           <td><%= programme.notes %></td>
-          <td><%= link_to 'Open Programme', programme %></td>
-          <td><%= link_to 'Edit', edit_programme_path(programme) %></td>
-          <td><%= link_to 'Delete', programme, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <td class='col-sm-3'><%= link_to 'Open Programme', programme, :class => 'btn btn-default btn-sm' %>
+          <%= link_to 'Edit', edit_programme_path(programme), :class => 'btn btn-default btn-sm' %>
+          <%= link_to 'Delete', programme, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-default btn-sm' %></td>
         </tr>
         <% end %>
       </tbody>
@@ -27,5 +27,5 @@
   </div>
   <br>
 
-  <%= link_to 'New Programme', new_programme_path %>
+  <%= link_to 'New Programme', new_programme_path, :class => 'btn btn-default btn-sm' %>
 </div>

@@ -52,6 +52,15 @@
         <%= pScripture.scripture.title %>
       </p>
       <% end %>
+      <div class='panel-heading'>
+        <b>Featured Media</b>
+      </div>
+      <% @featuredResources.each do |fResource| %>
+      <p class='resource_scheduler'
+         rel='<%= fResource.id %>'>
+        <%= fResource.title %>
+      </p>
+      <% end %>
     </div>
 
     <div class='col-sm-3'>
@@ -81,7 +90,7 @@
       <div class='row'>
         <div class='panel panel-default'>
           <div class='panel-heading'><b>Live Font Options</b>
-            <a id='set_font_defaults' class='pull-right btn btn-default btn-sm'>Reset</a>
+            <a id='set_font_defaults' class='pull-right btn btn-default btn-sm'>Reset to Defaults</a>
           </div>
           <div class='panel-body'>
 
@@ -196,7 +205,7 @@
 </p>
 
 
-<%= link_to('Edit', { :action => 'edit', :id => @programme })  %> |
-<%= link_to('Back', { :action => 'index'}) %>
+<%= link_to('Edit', { :action => 'edit', :id => @programme }, :class => 'btn btn-default btn-sm')  %> |
+<%= link_to('Back', { :action => 'index'}, :class => 'btn btn-default btn-sm') %>
 </div>
 <%# the above notation seems more readable than the magic methods, e.g. edit_programme_path(@programme) %>

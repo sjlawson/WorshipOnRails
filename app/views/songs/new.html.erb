@@ -1,7 +1,8 @@
 <div class='container'>
 <h1>New Song</h1>
+<%= link_to 'Cancel/Back', songs_path, :class => 'btn btn-default btn-sm pull-right' %>
 
 <%= render 'form' %>
 
-<%= link_to 'Back', songs_path %>
+<%= link_to 'Cancel/Back', songs_path, :class => 'btn btn-default btn-sm' %>
 </div>

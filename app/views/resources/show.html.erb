@@ -26,6 +26,8 @@
   <%= @resource.user.email %>
 </p>
 
-<%= link_to 'Edit', edit_resource_path(@resource) %> |
-<%= link_to 'Back', resources_path %>
+<%= link_to 'Edit', edit_resource_path(@resource), :class => 'btn btn-default btn-sm' %> |
+<%= link_to 'Back', resources_path, :class => 'btn btn-default btn-sm' %> |
+<%= link_to 'New Resource', new_resource_path, :class => 'btn btn-default btn-sm' %>
+
 </div>

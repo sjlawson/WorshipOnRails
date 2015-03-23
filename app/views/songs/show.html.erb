@@ -29,6 +29,8 @@
   <%= @song.user.email %>
 </p>
 
-<%= link_to 'Edit', edit_song_path(@song) %> |
-<%= link_to 'Back', songs_path %>
+<%= link_to 'Edit', edit_song_path(@song), :class => 'btn btn-default btn-sm' %> |
+<%= link_to 'Back', songs_path, :class => 'btn btn-default btn-sm' %> |
+<%= link_to 'Add Another Song', new_song_path, :class => 'btn btn-default btn-sm' %>
+
 </div>

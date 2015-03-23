@@ -21,6 +21,8 @@
   <%= @scripture.user.email %>
 </p>
 
-<%= link_to 'Edit', edit_scripture_path(@scripture) %> |
-<%= link_to 'Back', scriptures_path %>
+<%= link_to 'Edit', edit_scripture_path(@scripture), :class => 'btn btn-default btn-sm' %> |
+<%= link_to 'Back', scriptures_path, :class => 'btn btn-default btn-sm' %> |
+<%= link_to 'Add Another Text/Scripture', new_scripture_path, :class => 'btn btn-default btn-sm' %>
+
 </div>
