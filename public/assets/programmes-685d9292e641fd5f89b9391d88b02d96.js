@@ -148,11 +148,16 @@ function setMediaBackground()
             videoElement.setAttribute("id","proj_video_background");
             videoElement.setAttribute("preload","auto");
 
-            videoElement.setAttribute("autoplay","true");
-            videoElement.setAttribute("loop","loop");
-            videoElement.setAttribute("muted","muted");
-            videoElement.setAttribute("volume","0");
-
+            if(currentContentObject.contentType == 'resource') {
+                // featured video item
+                videoElement.setAttribute("autoplay","false");
+                videoElement.setAttribute("controls");
+            } else {
+                videoElement.setAttribute("autoplay","true");
+                videoElement.setAttribute("loop","loop");
+                videoElement.setAttribute("muted","muted");
+                videoElement.setAttribute("volume","0");
+            }
             var vidSrc = myNewWindow.document.createElement("source");
             vidSrc.setAttribute("src", bgUrl);
             vidSrc.setAttribute("type",bgType);
@@ -237,30 +242,42 @@ function loadContentItem()
     var type = currentContentObject.contentType;
     var id = currentContentObject.contentId;
     var slideData;
-    $.get("/" + type + "/" + id + ".json", function( data ) {
-        var slideContent = data.content.replace(/\[(.*?)\]/g,
-               "</div><label class='slide_label'>$1</label> \
-                <div class='slide_content'><p>");
 
-        slideContent = "<div>" + slideContent;
-        slideContent = slideContent.replace(/(?:\r\n|\r|\n)/g, '</p><p class="lyric-line">');
-        slideContent += "</p></div>";
-        slideContent = slideContent.replace("<p></p>",'');
-defaultFontSize,defaultFont,fontColor,vidBGColor,100
+    if(type == 'resources') {
+        $.get("/" + type + "/" + id + ".json", function( data ) {
+            currentContentObject.fontSize = '';
+            currentContentObject.fontFamily = '';
+            currentContentObject.textColor = '';
+            currentContentObject.bgOpacity = 100;
 
-        currentContentObject.fontSize = data.font_size ? data.font_size : defaultFontSize;
-        currentContentObject.fontFamily = data.font_family ? data.font_family : defaultFont;
-        currentContentObject.textColor = data.text_color ? data.text_color : fontColor;
-        currentContentObject.bgResourceId = data.resource_id ? data.resource_id : null;
-        currentContentObject.bgOpacity = data.bg_opacity ? data.bg_opacity : 100;
-        currentContentObject.bgColor = data.bg_color ? data.bg_color : vidBGColor;
+            alert( data.location );
+        });
+    } else {
+        $.get("/" + type + "/" + id + ".json", function( data ) {
+            var slideContent = data.content.replace(/\[(.*?)\]/g,
+                                                    "</div><label class='slide_label'>$1</label> \
+<div class='slide_content'><p>");
 
-        $( "#slides" ).html( slideContent );
-        $('.slide_content').click(function() { change_content(this); });
+            slideContent = "<div>" + slideContent;
+            slideContent = slideContent.replace(/(?:\r\n|\r|\n)/g, '</p><p class="lyric-line">');
+            slideContent += "</p></div>";
+            slideContent = slideContent.replace("<p></p>",'');
+            // defaultFontSize,defaultFont,fontColor,vidBGColor,100
 
-    });
+            currentContentObject.fontSize = data.font_size ? data.font_size : defaultFontSize;
+            currentContentObject.fontFamily = data.font_family ? data.font_family : defaultFont;
+            currentContentObject.textColor = data.text_color ? data.text_color : fontColor;
+            currentContentObject.bgResourceId = data.resource_id ? data.resource_id : null;
+            currentContentObject.bgOpacity = data.bg_opacity ? data.bg_opacity : 100;
+            currentContentObject.bgColor = data.bg_color ? data.bg_color : vidBGColor;
 
-    $("#slides div:nth-child(1)").css("backgroundColor","#A2D3A2");
+            $( "#slides" ).html( slideContent );
+            $('.slide_content').click(function() { change_content(this); });
+
+        });
+
+        $("#slides div:nth-child(1)").css("backgroundColor","#A2D3A2");
+    }
 }
 
 /**
@@ -292,6 +309,35 @@ function setStylesToCurrentContentObject()
 }
 
 /**
+ * Place a featured media element in the projection and clone window
+ */
+function display_featured_media(content_element)
+{
+    if(videoElement != undefined) {
+        videoElement.style.display = "block";
+        videoElement.remove();
+    }
+
+    blankScreen();
+    unselect_slide_backgrounds();
+    setBackground();
+}
+
+/**
+ * Set all slide backgrounds to default bg colour (white)
+ */
+function unselect_slide_backgrounds()
+{
+    var slideChildren = document.getElementById("slides").childNodes;
+    for (var i = 0; i < slideChildren.length; i++) {
+        var childSlide = slideChildren[i];
+
+        if(childSlide.nodeType == 1)
+            childSlide.style.backgroundColor="white";
+    }
+}
+
+/**
  * When a different slide is selected clicked, move its content to live
  */
 function change_content(content_element)
@@ -316,13 +362,7 @@ function change_content(content_element)
     setStylesToCurrentContentObject();
     setControlsToCurrentContentObject();
 
-    var slideChildren = document.getElementById("slides").childNodes;
-    for (var i = 0; i < slideChildren.length; i++) {
-        var childSlide = slideChildren[i];
-
-        if(childSlide.nodeType == 1)
-            childSlide.style.backgroundColor="white";
-    }
+    unselect_slide_backgrounds()
 
     this.currentSlide = content;
     $(content_element).css('backgroundColor','#A2D3A2');
@@ -347,7 +387,7 @@ function blankScreen()
 }
 
 /**
- * Assigns textColor from currentContentObject to text element color in live window and clone element
+ * Assigns textColor from currentContentObject to text elements color in live window and clone element
  */
 function setFontColor()
 {
@@ -370,8 +410,9 @@ function setBGColor()
     $('#cloneWindowBody').css('background-color', currentContentObject.bgColor);
 }
 
-// var cloneLyricElement = document.getElementById('clone_lyric_block');
-
+/**
+ * Assigns fontSize from currentContentObject to text elements in live window and clone element background
+ */
 function setLiveFontSize() {
     $('#clone_lyric_block .lyric-line').css('font-size', Math.ceil( currentContentObject.fontSize ));
     if(myNewWindow != null) {
@@ -380,6 +421,9 @@ function setLiveFontSize() {
     }
 }
 
+/**
+ * Assigns fontFamily from currentContentObject to text elements in live window and clone element background
+ */
 function setLiveFont() {
     $('#clone_lyric_block .lyric-line').css('font-family', currentContentObject.fontFamily);
     if(myNewWindow != null) {
@@ -388,12 +432,21 @@ function setLiveFont() {
     }
 }
 
+/**
+ * Setup element events and init states
+ */
 function initElements()
 {
-
     $('.slide_content').on('click', function(event) {
         change_content(event.target);
     });
+
+    $('.resource_scheduler').on('click', function(event) {
+        currentContentObject.contentType = 'resources';
+        currentContentObject.contentID = $(event.target).attr('rel');
+        currentContentObject.bgResourceId = $(event.target).attr('rel');
+        display_featured_media();
+    } );
 
     $('.song_scheduler').on('click', function(event) {
         currentContentObject.contentType = 'songs';
@@ -505,7 +558,15 @@ function initElements()
     initComplete = true;
 }
 
-$(document).ready(function() { initElements();});
-$(document).on('page:load', function() { initElements();});
-// rails doesn't always trigger $(document).ready
+/**
+ * Two different on-document-ready events depending on how the page was loaded
+ */
+$(document).ready(function() { // event does not fire when page loads from index link
+    initElements();
+});
+
+if(!initComplete) {
+    // this event fires when page loads from programmes index link
+    $(document).on('page:load', function() { initElements();});
+}
 ;

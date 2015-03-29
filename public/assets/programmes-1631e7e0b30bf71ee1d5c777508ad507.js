@@ -569,3 +569,4 @@ if(!initComplete) {
     // this event fires when page loads from programmes index link
     $(document).on('page:load', function() { initElements();});
 }
+;
